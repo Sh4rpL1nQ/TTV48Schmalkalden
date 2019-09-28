@@ -7,7 +7,15 @@
     <meta name="description" content="Tischtennis spielen in der Heimat! Wir heißen Sie recht herzlich im Schmalkaldener Verein TTV 40 Schmalkalden willkommen &#10084. Hier finden Sie Informationen rund um uns und unseren Sport. Viel Spaß beim Stöbern!">
     <meta name="keywords" content="Tischtennis, Schmalkalden, Sport, Verein, Freizeit">
     <meta name="author" content="Dominik Weder">
-    <meta name="robots" content="index,follow" />
+    @if (ViewBag.Title.Equals("Datenschutzerklärung") || ViewBag.Title.Equals("Kontakt"))
+    {
+        <meta name="robots" content="index,follow" />
+    }
+    else
+    {
+        <meta name="robots" content="noindex,follow" />
+    }
+
     <meta http-equiv="language" content="DE">
 
     <title>TTV 48 Schmalkalden - @ViewBag.Title</title>

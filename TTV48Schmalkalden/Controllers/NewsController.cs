@@ -145,6 +145,6 @@ namespace TTV48Schmalkalden.Controllers
             context.SaveChanges();
 
             return RedirectToAction("Detail", "News", new { id = targetNews.Id });
-        }
+        }        
     }
 }

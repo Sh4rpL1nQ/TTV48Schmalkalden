@@ -25,25 +25,25 @@ namespace TTV48Schmalkalden.Controllers
                 {
                     ChangeFrequency = ChangeFrequency.Weekly,
                     LastModificationDate = DateTime.UtcNow,
-                    Priority = 0.9M
+                    Priority = 1.0M
                 },
                 new SitemapNode(Url.Action("Index", "Contact"))
                 {
                     ChangeFrequency = ChangeFrequency.Never,
                     LastModificationDate = DateTime.UtcNow,
-                    Priority = 0.9M
+                    Priority = 0.4M
                 },
                 new SitemapNode(Url.Action("Index", "PrivacyPolicy"))
                 {
                     ChangeFrequency = ChangeFrequency.Never,
                     LastModificationDate = DateTime.UtcNow,
-                    Priority = 0.9M
+                    Priority = 0.1M
                 },
                 new SitemapNode(Url.Action("Index", "News"))
                 {
                     ChangeFrequency = ChangeFrequency.Weekly,
                     LastModificationDate = DateTime.UtcNow,
-                    Priority = 0.9M
+                    Priority = 0.8M
                 }
             };
 
@@ -54,7 +54,7 @@ namespace TTV48Schmalkalden.Controllers
                 {
                     ChangeFrequency = ChangeFrequency.Weekly,
                     LastModificationDate = DateTime.UtcNow,
-                    Priority = 0.6M
+                    Priority = 0.1M
                 });
             }
 
