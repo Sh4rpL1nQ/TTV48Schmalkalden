@@ -1,0 +1,92 @@
+﻿<header id="home">
+    <div class="navbar">
+        <div class="navbar-header">
+            <div class="container">
+
+                <ul class="info">
+                    <li><a href="mailto:info@ttv48schmalkalden.com"><i class="icon-mail-1 contact"></i> info@ttv48schmalkalden.com</a></li>
+                </ul><!-- /.info -->
+
+                <ul class="social">
+                    <li><a href="https://www.instagram.com/ttschmalkalden/"><i class="icon-s-instagram"></i></a></li>
+                </ul><!-- /.social -->
+                <!-- ============================================================= LOGO MOBILE ============================================================= -->
+
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index"><img src="~/assets/images/logo.svg" class="logo" alt=""></a>
+
+                <!-- ============================================================= LOGO MOBILE : END ============================================================= -->
+
+                <a class="navbar-toggler btn responsive-menu float-right" data-toggle="collapse" data-target=".navbar-collapse"><i class='icon-menu-1'></i></a>
+
+            </div><!-- /.container -->
+        </div><!-- /.navbar-header -->
+
+        <div class="yamm">
+            <div class="navbar-collapse collapse">
+                <div class="container">
+
+                    <!-- ============================================================= LOGO ============================================================= -->
+
+                    <a class="navbar-brand scroll-to" asp-controller="Home" asp-action="Index"><img src="~/assets/images/logo.svg" class="logo" alt=""></a>
+
+                    <!-- ============================================================= LOGO : END ============================================================= -->
+                    <!-- ============================================================= MAIN NAVIGATION ============================================================= -->
+
+                    <ul class="nav navbar-nav float-right">
+
+                        @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
+                        {
+                            <li><a href="#home" class="scroll-to" data-anchor-offset="0">Home</a></li>
+                            <li><a href="#training" class="scroll-to" data-anchor-offset="0">Training</a></li>
+                        }
+                        else
+                        {
+                            <li><a asp-controller="Home" asp-action="Redirection" asp-route-tag="home">Home</a></li>
+                            <li><a asp-controller="Home" asp-action="Redirection" asp-route-tag="training">Training</a></li>
+                        }
+
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" style="padding-right: 15px;">News <i class="icon-down-open"></i></a>
+
+                            <ul class="dropdown-menu" style="right: auto;">
+                                @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
+                                {
+                                    <li><a href="#news" class="scroll-to" data-anchor-offset="0">Übersicht</a></li>
+                                }
+                                else
+                                {
+                                    <li><a asp-controller="Home" asp-action="Redirection" asp-route-tag="news">Übersicht</a></li>
+                                }
+
+                                <li><a asp-controller="News" asp-action="Index">Blog</a></li>
+
+                            </ul><!-- /.dropdown-menu -->
+                        </li><!-- /.dropdown -->
+
+                        @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
+                        {
+                            <li><a href="#about" class="scroll-to" data-anchor-offset="0">About</a></li>
+                        }
+                        else
+                        {
+                            <li><a asp-controller="Home" asp-action="Redirection" asp-route-tag="about">About</a></li>
+                        }
+
+                        <li><a asp-controller="Contact" asp-action="Index">Kontakt</a></li>
+                        @if (ViewContext.RouteData.Values["controller"].ToString() == "Contact")
+                        {
+                            <li><a href="#impressum" class="scroll-to" data-anchor-offset="0">Impressum</a></li>
+                        }
+                        else
+                        {
+                            <li><a asp-controller="Contact" asp-action="Redirection" asp-route-tag="impressum">Impressum</a></li>
+                        }
+
+                    </ul><!-- /.nav -->
+                    <!-- ============================================================= MAIN NAVIGATION : END ============================================================= -->
+
+                </div><!-- /.container -->
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.yamm -->
+    </div><!-- /.navbar -->
+</header>

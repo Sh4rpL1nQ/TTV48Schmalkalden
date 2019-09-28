@@ -1,0 +1,192 @@
+﻿@model TTV48Schmalkalden.Models.NewsOverviewViewModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- ============================================================= HEADER : END ============================================================= -->
+<!-- ============================================================= MAIN ============================================================= -->
+
+<main>
+
+    <!-- ============================================================= SECTION – HOME ============================================================= -->
+
+    <section class="light-bg">
+        <div class="container inner-top inner-bottom-xs">
+            <div class="row">
+
+                <div class="col-lg-4 inner-right-xs inner-bottom-xs">
+                    <h2>Wir heißen Sie rechtherzlich auf unserer offiziellen Vereinswebsite willkommen</h2>
+                </div><!-- /.col -->
+
+                <div class="col-lg-4 inner-right-xs inner-bottom-xs">
+                    <h3>TTV 48 Schmalkalden</h3>
+                    <p>
+                        Seien Sie gegrüßt, sehr geehrte Freunde des Tischtennissports. <i class="icon-sound"><br /></i>
+                        Die vorherige Website wurde ein paar Monate auf Eis gelegt und ist deshalb nicht mehr auf dem allerneusten Stand.
+                        Hier können Sie mehr über uns erfahren.
+                    </p>
+                    <a href="#about" data-anchor-offset="0" class="btn btn-large scroll-to">Über uns</a>
+                </div><!-- /.col -->
+
+                <div class="col-lg-4 inner-right-xs inner-bottom-xs">
+                    <h3>Freude am Tischtennis</h3>
+                    <p>
+                        Haben Sie Freude am Tischtennis und suchen eine Möglichkeit aktiv spielen zu können?
+                        Informieren Sie sich über unsere Trainingszeiten.
+                    </p>
+                    <a href="#training" data-anchor-offset="0" class="btn btn-large scroll-to">Training</a>
+                </div><!-- /.col -->
+
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </section>
+
+    <!-- ============================================================= SECTION – HOME : END ============================================================= -->
+    <!-- ============================================================= SECTION – TRAINING ============================================================= -->
+
+    <section id="about" class="light-bg img-bg-softer" style="background-image: url(../assets/images/art/pattern-background01.jpg);">
+        <div class="container inner">
+
+            <div class="row">
+                <div class="col-lg-8 col-md-9 mx-auto text-center">
+                    <header>
+                        <h1>Über uns</h1>
+                    </header>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <div class="row">
+                <div class="col-lg-8 col-md-9 mx-auto text-center">
+                    <div id="owl-testimonials" class="owl-carousel owl-outer-nav owl-ui-md">
+
+                        <div class="item">
+                            <p>Dieser Teil befindet sich noch in Arbeit</p>
+                        </div><!-- /.item -->
+
+                        <div class="item">
+                            <p>Dieser Teil befindet sich noch in Arbeit</p>
+                        </div><!-- /.item -->
+
+                        <div class="item">
+                            <p>Dieser Teil befindet sich noch in Arbeit</p>
+                        </div><!-- /.item -->
+
+                    </div><!-- /.owl-carousel -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+        </div><!-- /.container -->
+    </section>
+
+    <section id="training">
+        <div class="container inner-top">
+
+            <div class="row">
+                <div class="col-lg-8 col-md-9 mx-auto text-center">
+                    <header>
+                        <h1>Wann trainieren wir?</h1>
+                        <p>
+                            Trainiert wird zweimal die Woche. Dabei spielen die Kinder und Jugendlichen zeitversetzt zu den Erwachsenen,
+                            da die steigende Anzahl an Nachwuchsspielern mehr Platz fordert.
+                        </p>
+                    </header>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <div class="row inner-top-sm">
+
+                <div class="col-lg-3 inner-bottom-sm">
+                    <h2>Kindertraining</h2>
+                    <ul class="circled">
+                        <li>Dienstag von 17:30 Uhr bis 19:30 Uhr</li>
+                        <li>Donnerstag von 17:30 Uhr bis 18:30 Uhr</li>
+                    </ul>
+                    <p class="text-small"></p>
+                </div><!-- /.col -->
+
+                <div class="col-lg-3 inner-bottom-sm">
+                    <h2>Erwachsenentraining</h2>
+                    <ul class="circled">
+                        <li>Dienstag von 19:30 Uhr bis zum Umfallen</li>
+                        <li>Donnerstag von 18:30 Uhr bis zum Umfallen</li>
+                    </ul>
+                    <p class="text-small"></p>
+                </div><!-- /.col -->
+
+                <div class="col-lg-6 inner-left-xs">
+                    <figure><img src="~/assets/images/art/location.png" alt=""></figure>
+                </div><!-- /.col -->
+
+            </div><!-- /.row -->
+
+        </div><!-- /.container -->
+    </section>
+
+    <!-- ============================================================= SECTION – TRAINING : END ============================================================= -->
+    <!-- ============================================================= SECTION – NEWS ============================================================= -->
+
+    <section id="news" class="light-bg">
+        <div class="container inner-top-md inner-bottom-md">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="accordion" class="panel-group">
+                        <div class="panel panel-default">
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="panel-toggle" href="#content" data-toggle="collapse">
+                                        <span>Neueste Informationen</span>
+                                    </a>
+                                </h4>
+                            </div><!-- /.panel-heading -->
+
+                            <div id="content" class="panel-collapse collapse show" data-parent="#accordion">
+                                <div class="panel-body">
+                                    <div id="owl-popular-posts" class="owl-carousel owl-item-gap-sm">
+                                        @foreach (var news in Model.News)
+                                        {
+                                            <div class="item">
+                                                <a asp-controller="News" asp-action="Detail" asp-route-id="@news.NewsId">
+                                                    <figure class="crop">
+                                                        <figcaption class="text-overlay">
+                                                            <div class="info">
+                                                                <h4 style="hyphens: auto;">@news.Title</h4>
+                                                            </div><!-- /.info -->
+                                                        </figcaption>
+                                                        <img src="~/assets/images/placeholder-news.svg" alt="">
+                                                    </figure>
+                                                    <figcaption class="bordered no-top-border addon">
+                                                        <div class="info">
+                                                            <h4>@news.Title</h4>
+                                                        </div><!-- /.info -->
+                                                    </figcaption>
+                                                </a>
+                                            </div>
+                                        }
+                                    </div><!-- /.owl-carousel -->
+                                </div><!-- /.panel-body -->
+                            </div><!-- /.content -->
+
+                        </div><!-- /.panel -->
+                    </div><!-- /.accordion -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </section>
+
+    <!-- ============================================================= SECTION – NEWS : END ============================================================= -->
+    <!-- ============================================================= SECTION – REASONS ============================================================= -->
+    <!-- ============================================================= SECTION – REASONS : END ============================================================= -->
+    <!-- ============================================================= SECTION – GET IN TOUCH ============================================================= -->
+    <!-- ============================================================= SECTION – GET IN TOUCH : END ============================================================= -->
+    <!-- ============================================================= MODALS ============================================================= -->
+    <!-- ============================================================= MODAL PRODUCT01 ============================================================= -->
+    <!-- ============================================================= MODAL PRODUCT01 : END ============================================================= -->
+    <!-- ============================================================= MODAL CONTACT01 ============================================================= -->
+    <!-- ============================================================= MODAL CONTACT01 : END ============================================================= -->
+    <!-- ============================================================= MODALS : END ============================================================= -->
+
+</main>
+
+<!-- ============================================================= MAIN : END ============================================================= -->
+<!-- ============================================================= FOOTER ============================================================= -->

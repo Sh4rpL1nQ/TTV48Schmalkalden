@@ -1,0 +1,42 @@
+﻿<footer class="dark-bg">
+    <div class="container inner">
+        <div class="row">
+
+            <div class="col-lg-4 col-md-6 inner">
+                <h4>Wer sind wir</h4>
+                <a href="#top" class="scroll-to"><img class="logo img-intext" src="~/assets/images/logo-white.svg" alt=""></a>
+                <p>Ein sympathischer regional präsenter Tischtennisverein aus dem Thüringer Wald.</p>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="about" class="txt-btn">Mehr über uns</a>
+            </div><!-- /.col -->
+
+
+            <div class="col-lg-4 col-md-6 inner">
+                <h4>Kontaktieren Sie uns</h4>
+                <p>Für Fragen und Verbesserungsvorschläge stehen wir Ihnen gerne zur Verfügung</p>
+                <ul class="contacts">
+                    <li><i class="icon-location contact"></i>98574 Schmalkalden, Deutschland</li>
+                    <li><i class="icon-mobile contact"></i> +49 157 763 169 75</li>
+                    <li><a href="mailto:info@ttv48schmalkalden.com"><i class="icon-mail-1 contact"></i> info@ttv48schmalkalden.com</a></li>
+                </ul><!-- /.contacts -->
+            </div><!-- /.col -->
+
+            <div class="col-lg-4 col-md-6 inner">
+                <h4>Bevorstehende Events</h4>
+                <p>Schauen Sie in unseren Kalender, wann und wo das nächste Ereignis stattfindet. (Kommt noch)</p>
+
+            </div><!-- /.col -->
+
+        </div><!-- /.row -->
+    </div><!-- .container -->
+
+    <div class="footer-bottom">
+        <div class="container inner clearfix">
+            <p class="float-left">© 2019 Dominik Weder</p>
+            <ul class="footer-menu float-right">
+                <li><a asp-controller="Contact" asp-action="Index">Kontakt</a></li>
+                <li><a asp-controller="Contact" asp-action="Index" asp-fragment="impressum">Impressum</a></li>
+                <li><a asp-controller="PrivacyPolicy" asp-action="Index">Datenschutzerklärung</a></li>
+            </ul><!-- .footer-menu -->
+        </div><!-- .container -->
+    </div><!-- .footer-bottom -->
+</footer>

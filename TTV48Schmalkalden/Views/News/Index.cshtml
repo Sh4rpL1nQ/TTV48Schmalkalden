@@ -1,0 +1,122 @@
+﻿@model TTV48Schmalkalden.Models.NewsListViewModel
+
+@{ 
+    ViewData["Title"] = "News";
+}
+
+<section id="blog" class="light-bg">
+    <div class="container inner-top-sm inner-bottom classic-blog">
+        <div class="row">
+            <div class="col-lg-9 inner-right-sm">
+                <div class="posts sidemeta">
+                @foreach (var entry in Model.News)
+                {
+
+                    <div class="post format-standard">
+                        <div class="date-wrapper">
+                            <div class="date">
+                                <span class="day">@entry.GetDay()</span>
+                                <span class="month">@entry.GetMonth()</span>
+                                <span class="year">@entry.GetYear()</span>
+                            </div><!-- /.date -->
+                        </div><!-- /.date-wrapper -->
+
+                        <!--<div class="format-wrapper">
+        <a href="#"><i class="icon-picture"></i></a>
+    </div>-->
+
+                        <div class="post-content">
+
+                            <h2 class="post-title">
+                                <a href="blog-post.html">@entry.Title</a>
+                            </h2>
+
+                            <ul class="meta">
+                                <li class="categories">
+                                    @foreach (var cat in entry.Categories)
+                                    {
+                                        if (cat.Id != 10)
+                                        {
+                                    <a asp-controller="News" asp-action="Index" asp-route-category="@cat.Id">@cat.Name&#32;&#32;</a>
+                                        }
+
+                                    }
+                                </li>
+                                @if (entry.CommentCount == 1)
+                                {
+                                    <li class="comments"><a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId" asp-fragment="comments" class="scroll-to" data-anchor-offset="0">@entry.CommentCount Kommentar</a></li> }
+                                else
+                                {
+                                    <li class="comments"><a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId" asp-fragment="comments" class="scroll-to" data-anchor-offset="0">@entry.CommentCount Kommentare</a></li>}
+
+                            </ul><!-- /.meta -->
+                            @Html.Raw(entry.Body)
+
+                            <div class="container">
+                                <a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId" class="btn">Weiter lesen</a>
+                            </div>
+
+                        </div><!-- /.post-content -->
+
+                    </div>
+
+                }
+                    
+                </div><!-- /.posts -->
+
+                <ul class="pagination">
+                    @{ 
+                        int page = 1;
+                        if (ViewContext.RouteData.Values["id"] != null) {
+                            page = int.Parse(ViewContext.RouteData.Values["id"].ToString());
+                        }
+                    }
+                    @if (page > 1)
+                    {
+                        var prevNumber = page - 1;
+                        <li><a asp-controller="News" asp-action="Index" asp-route-id="@prevNumber">Vorherige Seite</a></li>
+                    }
+                    @if (page != Model.Pages)
+                    {
+                        var nextNumber = page + 1;
+                        <li><a asp-controller="News" asp-action="Index" asp-route-id="@nextNumber">Nächste Seite</a></li>
+                    }
+                </ul><!-- /.pagination -->
+
+            </div><!-- /.col -->
+
+            <aside class="col-lg-3">
+                <div class="sidebox widget">
+                    <h4>Suche</h4>
+
+                    <form id="search" class="navbar-form search" role="search">
+                        <input type="search" class="form-control" placeholder="Tippe um zu Suchen">
+                        <button type="submit" class="btn btn-submit icon-right-open"></button>
+                    </form>
+                </div><!-- /.widget -->
+
+                <div class="sidebox widget">
+                    <h4>Kategorien</h4>
+
+                    <ul class="circled">
+                        @foreach (var entry in Model.Categories)
+                        {
+                            <li><a asp-controller="News" asp-action="Index" asp-route-category="@entry.Category.Id">@entry.Category.Name (@entry.Count)</a></li>
+                        }
+
+                    </ul><!-- /.circled -->
+                </div><!-- /.widget -->
+
+                <div class="sidebox widget">
+                    <h4>Willkommen</h4>
+                    <p>Hier sehen Sie eine Ansammlung an Neuigkeiten sortiert von der Neusten zur Ältesten.</p>
+                    <p>Diese werden von freiwilligen Mitgliedern verfasst und gegebenenfalls mit Bildern ausgestellt.</p>
+                    <p>Als Nutzer dieser Sektion ist es Ihnen möglich, Kommentare zu verfassen um Feedback zu geben.</p>
+                </div><!-- /.widget -->
+            </aside>
+
+        </div><!-- /.row -->
+
+    </div><!-- /.container -->
+</section>
+
