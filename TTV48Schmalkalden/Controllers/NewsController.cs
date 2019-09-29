@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Data;
 using Data.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TTV48Schmalkalden.Models;
@@ -17,10 +18,13 @@ namespace TTV48Schmalkalden.Controllers
         private const string ToBeContinued = " ...";
 
         private DatabaseContext context;
+        private ISession session;
 
-        public NewsController(DatabaseContext context)
+        public NewsController(DatabaseContext context, IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
+
+            session = httpContextAccessor.HttpContext.Session;
         }
 
         public IActionResult Index(int id, int category)
@@ -145,6 +149,31 @@ namespace TTV48Schmalkalden.Controllers
             context.SaveChanges();
 
             return RedirectToAction("Detail", "News", new { id = targetNews.Id });
-        }        
+        }
+        
+        public IActionResult Admin()
+        {
+            if (session.GetString("user") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var news = context.News.OrderByDescending(x => x.Written);
+            var model = new NewsViewModels();
+
+            foreach (var entry in news)
+            {
+                model.News.Add(new AdminNewsViewModel()
+                {
+                    NewsId = entry.Id,
+                    Body = entry.Body,
+                    Title = entry.Title
+                });
+            }
+
+            return View(model);
+        }
+
+
     }
 }

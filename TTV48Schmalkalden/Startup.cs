@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Data;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace TTV48Schmalkalden
 {
@@ -18,7 +20,11 @@ namespace TTV48Schmalkalden
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                 .SetBasePath(Directory.GetCurrentDirectory())
+                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -33,6 +39,20 @@ namespace TTV48Schmalkalden
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            Action<Options> saltOptions = (opt =>
+            {
+                opt.Salt = Configuration["Salt:UserSalt"];
+            });
+
+            services.Configure(saltOptions);
+
+            services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<Options>>().Value);
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TTVConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -43,23 +63,25 @@ namespace TTV48Schmalkalden
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();   
             }
             else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+            {                
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();   
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
             });
         }
     }

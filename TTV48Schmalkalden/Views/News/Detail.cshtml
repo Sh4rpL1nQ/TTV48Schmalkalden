@@ -1,4 +1,6 @@
 ﻿@model TTV48Schmalkalden.Models.NewsPostViewModel
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Blog";
 }
@@ -19,10 +21,6 @@
                             </div><!-- /.date -->
                         </div><!-- /.date-wrapper -->
 
-                        <!--<div class="format-wrapper">
-        <a href="#"><i class="icon-picture"></i></a>
-    </div>-->
-
                         <div class="post-content">
                             <p class="author"><a href="" title="Post author" data-rel="tooltip" data-placement="left">@Model.NewsViewModel.Author</a></p>
 
@@ -34,9 +32,9 @@
                                     {
                                         if (cat.Id != 10)
                                         {
-                                    <a asp-controller="News" asp-action="Index" asp-route-category="@cat.Id">@cat.Name&#32;&#32;</a>
-                                }
-                            }
+                                            <a asp-controller="News" asp-action="Index" asp-route-category="@cat.Id">@cat.Name&#32;&#32;</a>
+                                        }
+                                    }
                                 </li>
                                 @if (Model.NewsViewModel.CommentCount == 1)
                                 {
@@ -50,9 +48,9 @@
                             @Html.Raw(Model.NewsViewModel.Body)
 
                             <!--<figure>
-        <img style="max-width:50%;display:block;margin:auto;" src="~/" alt="">
-        <figcaption></figcaption>
-    </figure>-->
+            <img style="max-width:50%;display:block;margin:auto;" src="~/" alt="">
+            <figcaption></figcaption>
+        </figure>-->
 
                         </div><!-- /.post-content -->
 

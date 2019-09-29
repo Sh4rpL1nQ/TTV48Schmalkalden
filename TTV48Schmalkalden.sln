@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.852
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TTV48Schmalkalden", "TTV48Schmalkalden\TTV48Schmalkalden.csproj", "{01F589F5-133E-456B-AD6E-B49BAD4C8426}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{2ED22C07-8A46-44C9-A496-E63D76D89AB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{2ED22C07-8A46-44C9-A496-E63D76D89AB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

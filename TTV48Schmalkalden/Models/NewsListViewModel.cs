@@ -14,6 +14,13 @@ namespace TTV48Schmalkalden.Models
         public int Pages { get; set; }
 
         public List<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
+
+        public string Password { get; set; }
+    }
+
+    public class NewsViewModels
+    {
+        public List<AdminNewsViewModel> News { get; set; } = new List<AdminNewsViewModel>();
     }
 
     public class CategoryViewModel
@@ -32,6 +39,8 @@ namespace TTV48Schmalkalden.Models
         public List<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
 
         public CommentForm CommentForm { get; set; } = new CommentForm();
+
+        public string Password { get; set; }
     }
 
     public class CommentViewModel
@@ -90,6 +99,15 @@ namespace TTV48Schmalkalden.Models
         public int NewsId { get; set; }
     }
 
+    public class AdminNewsViewModel
+    {
+        public int NewsId { get; set; }
+
+        public string Title { get; set; }
+
+        public string Body { get; set; }
+    }
+
     public class NewsViewModel
     {
         public int NewsId { get; set; }
@@ -103,10 +121,6 @@ namespace TTV48Schmalkalden.Models
         public DateTime Written { get; set; }
 
         public int CommentCount { get; set; }
-
-        public string ImageTitle { get; set; }
-
-        public string ImageUrl { get; set; }
 
         public List<Category> Categories { get; set; }
 

@@ -38,11 +38,5 @@ namespace TTV48Schmalkalden.Controllers
         {
             return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + "#" + tag);
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

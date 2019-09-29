@@ -1,6 +1,7 @@
 ﻿@model TTV48Schmalkalden.Models.NewsListViewModel
-
-@{ 
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
     ViewData["Title"] = "News";
 }
 
@@ -9,65 +10,62 @@
         <div class="row">
             <div class="col-lg-9 inner-right-sm">
                 <div class="posts sidemeta">
-                @foreach (var entry in Model.News)
-                {
+                    @foreach (var entry in Model.News)
+                    {
 
-                    <div class="post format-standard">
-                        <div class="date-wrapper">
-                            <div class="date">
-                                <span class="day">@entry.GetDay()</span>
-                                <span class="month">@entry.GetMonth()</span>
-                                <span class="year">@entry.GetYear()</span>
-                            </div><!-- /.date -->
-                        </div><!-- /.date-wrapper -->
+                        <div class="post format-standard">
+                            <div class="date-wrapper">
+                                <div class="date">
+                                    <span class="day">@entry.GetDay()</span>
+                                    <span class="month">@entry.GetMonth()</span>
+                                    <span class="year">@entry.GetYear()</span>
+                                </div><!-- /.date -->
+                            </div><!-- /.date-wrapper -->
 
-                        <!--<div class="format-wrapper">
-        <a href="#"><i class="icon-picture"></i></a>
-    </div>-->
+                            <div class="post-content">
 
-                        <div class="post-content">
+                                <h2 class="post-title">
+                                    <a href="blog-post.html">@entry.Title</a>
+                                </h2>
 
-                            <h2 class="post-title">
-                                <a href="blog-post.html">@entry.Title</a>
-                            </h2>
-
-                            <ul class="meta">
-                                <li class="categories">
-                                    @foreach (var cat in entry.Categories)
-                                    {
-                                        if (cat.Id != 10)
+                                <ul class="meta">
+                                    <li class="categories">
+                                        @foreach (var cat in entry.Categories)
                                         {
-                                    <a asp-controller="News" asp-action="Index" asp-route-category="@cat.Id">@cat.Name&#32;&#32;</a>
+                                            if (cat.Id != 10)
+                                            {
+                                                <a asp-controller="News" asp-action="Index" asp-route-category="@cat.Id">@cat.Name&#32;&#32;</a>
+                                            }
+
                                         }
+                                    </li>
+                                    @if (entry.CommentCount == 1)
+                                    {
+                                        <li class="comments"><a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId" asp-fragment="comments" class="scroll-to" data-anchor-offset="0">@entry.CommentCount Kommentar</a></li> }
+                                    else
+                                    {
+                                        <li class="comments"><a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId" asp-fragment="comments" class="scroll-to" data-anchor-offset="0">@entry.CommentCount Kommentare</a></li>}
 
-                                    }
-                                </li>
-                                @if (entry.CommentCount == 1)
-                                {
-                                    <li class="comments"><a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId" asp-fragment="comments" class="scroll-to" data-anchor-offset="0">@entry.CommentCount Kommentar</a></li> }
-                                else
-                                {
-                                    <li class="comments"><a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId" asp-fragment="comments" class="scroll-to" data-anchor-offset="0">@entry.CommentCount Kommentare</a></li>}
+                                </ul><!-- /.meta -->
+                                @Html.Raw(entry.Body)
 
-                            </ul><!-- /.meta -->
-                            @Html.Raw(entry.Body)
+                                <div class="container">
+                                    <a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId" class="btn">Weiter lesen</a>
+                                </div>
 
-                            <div class="container">
-                                <a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId" class="btn">Weiter lesen</a>
-                            </div>
+                            </div><!-- /.post-content -->
 
-                        </div><!-- /.post-content -->
+                        </div>
 
-                    </div>
+                    }
 
-                }
-                    
                 </div><!-- /.posts -->
 
                 <ul class="pagination">
-                    @{ 
+                    @{
                         int page = 1;
-                        if (ViewContext.RouteData.Values["id"] != null) {
+                        if (ViewContext.RouteData.Values["id"] != null)
+                        {
                             page = int.Parse(ViewContext.RouteData.Values["id"].ToString());
                         }
                     }

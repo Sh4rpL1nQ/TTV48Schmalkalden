@@ -1,0 +1,28 @@
+﻿@model TTV48Schmalkalden.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+<section id="blog-post" class="light-bg">
+    <div class="container inner-top-sm inner-bottom">
+        <div class="comment-form-wrapper">
+            <form id="loginform" class="forms" asp-action="Login" method="post">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "Nutzername" })
+                        @Html.ValidationMessageFor(x => x.UserName)
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Passwort" })
+                        @Html.ValidationMessageFor(x => x.Password)
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+
+                <button id="loginButton" type="submit" class="btn btn-submit">Login</button>
+            </form>
+            </div>
+        </div>
+    </section>

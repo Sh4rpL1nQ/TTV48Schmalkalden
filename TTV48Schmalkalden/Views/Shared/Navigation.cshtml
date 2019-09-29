@@ -1,4 +1,6 @@
-﻿<header id="home">
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<header id="home">
     <div class="navbar">
         <div class="navbar-header">
             <div class="container">
@@ -49,6 +51,10 @@
                             <a href="" class="dropdown-toggle" data-toggle="dropdown" style="padding-right: 15px;">News <i class="icon-down-open"></i></a>
 
                             <ul class="dropdown-menu" style="right: auto;">
+                                @if (HttpContextAccessor.HttpContext.Session.GetString("user") != null)
+                                {
+                                    <li><a asp-controller="News" asp-action="Admin">Admin</a></li>
+                                }
                                 @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
                                 {
                                     <li><a href="#news" class="scroll-to" data-anchor-offset="0">Übersicht</a></li>
@@ -80,6 +86,15 @@
                         else
                         {
                             <li><a asp-controller="Contact" asp-action="Redirection" asp-route-tag="impressum">Impressum</a></li>
+                        }
+
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("user") == null)
+                        {
+                            <li><a asp-controller="Login" asp-action="Index">Login</a></li>
+                        }
+                        else
+                        {
+                            <li><a asp-controller="Login" asp-action="Logout">Logout</a></li>
                         }
 
                     </ul><!-- /.nav -->

@@ -5983,6 +5983,33 @@ input:focus:-ms-input-placeholder {
 	}
 }
 
+@media (max-width: 575px) {
+    p, span {
+        font-size: 16px;
+    }
+    header > p {
+        font-size: 18px;
+    }
+    h2 {
+        font-size: 20px;
+    }
+    h3 {
+        font-size: 100%;
+    }
+    h1, .headline {
+        font-size: 25px;
+    }
+    figure > h4 {
+       font-size: 15px;
+    }
+    .circled li, li {
+        font-size: 16px;
+    }
+    .author {
+        font-size: 14px;
+    }
+}
+
 @media (max-width: 480px) {
 	.icon.pos-left i.icn {
 		font-size: 60px;
