@@ -104,8 +104,15 @@ namespace TTV48Schmalkalden.Models
         public int NewsId { get; set; }
 
         public string Title { get; set; }
+    }
 
-        public string Body { get; set; }
+    public class EditNewsViewModel
+    {
+        public News News { get; set; }
+
+        public string[] Categories { get; set; }
+
+        public List<Category> AllCategories { get; set; } = new List<Category>();
     }
 
     public class NewsViewModel

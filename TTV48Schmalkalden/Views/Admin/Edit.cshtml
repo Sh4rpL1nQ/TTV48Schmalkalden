@@ -1,0 +1,75 @@
+﻿@model TTV48Schmalkalden.Models.EditNewsViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<section id="blog-post" class="light-bg">
+    <div class="container inner-top-sm inner-bottom">
+        <div class="comment-form-wrapper">
+            <form id="loginform" class="forms" asp-action="Edit" method="post">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.TextBoxFor(model => model.News.Title, new { @class = "form-control", placeholder = "Titel" })
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(model => model.News.Body, new { @class = "form-control", placeholder = "Body" })
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.ListBoxFor(
+                       model => model.Categories,
+                       new MultiSelectList(Model.AllCategories, "Id", "Name"),
+                       new { @class = "chosen-select chosen-width", @multiple = "true", @id = "ccc"})
+                    </div>
+                </div>
+                @Html.HiddenFor(x => x.News.Id)
+                @Html.HiddenFor(x => x.News.Author)
+                @Html.HiddenFor(x => x.News.Written)
+                @for (int i = 0; i < Model.Categories.Length; i++)
+                {
+                    @Html.HiddenFor(model => Model.Categories[i])
+                }
+                <button id="" type="submit" class="btn btn-submit">Speichern</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+
+    var isMobile = {
+        Android: function () {
+            return navigator.userAgent.match(/Android/i);
+        },
+        BlackBerry: function () {
+            return navigator.userAgent.match(/BlackBerry/i);
+        },
+        iOS: function () {
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        },
+        Opera: function () {
+            return navigator.userAgent.match(/Opera Mini/i);
+        },
+        Windows: function () {
+            return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+        },
+        any: function () {
+            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+        }
+    };
+
+    window.onload = function () {
+        if (isMobile) {
+            ccc.style.display = "none";
+        } else {
+            ccc.style.display = "block";
+        }
+    }
+</script>
+

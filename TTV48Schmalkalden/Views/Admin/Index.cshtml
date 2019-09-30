@@ -1,0 +1,76 @@
+﻿@model TTV48Schmalkalden.Models.NewsViewModels
+@{
+    ViewData["Title"] = "Admin";
+}
+<section id="blog-post" class="light-bg">
+    <div class="container inner-top-sm inner-bottom">
+        <div class="comment-form-wrapper">
+            <div>
+                <a asp-controller="Admin" asp-action="Edit" asp-route-id="0" class="btn btn-large" style="width:100%;">Neu erstellen</a>
+            </div>
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th style="width: 5%">ID</th>
+                        <th style="width: 85%">Titel</th>
+                        <th style="width: 5%">
+                            E
+                        </th>
+                        <th style="width: 5%">
+                            D
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var entry in Model.News)
+                    {
+                        <tr>
+                            <td class="text-center"><p>@entry.NewsId</p></td>
+                            <td><a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId">@entry.Title</a></td>
+                            <td class="text-center">
+                                <a asp-controller="Admin" asp-action="Edit" asp-route-id="@entry.NewsId"><i class="icon-edit"></i></a>
+                            </td>
+                            <td>
+                                <a href="#modal-notification01" class="modalLink" data-id="@entry.NewsId" data-toggle="modal" data-><i class="icon-cancel-squared"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+@using (Html.BeginForm("Delete", "Admin", FormMethod.Post))
+{
+    <div class="modal fade" id="modal-notification01" tabindex="-1" role="dialog" aria-labelledby="modal-notification01" aria-hidden="true">
+        <div class="modal-dialog modal-xs">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-notification01">Löschen</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="icon-cancel-1"></i></span></button>
+                </div><!-- /.modal-header -->
+                <!-- ============================================================= MODAL CONTENT ============================================================= -->
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        @Html.Hidden("id", "", new { @class = "hiddenid" })
+                    </div>
+                        <div class="container inner-xs text-center">
+                            <h2>Achtung</h2>
+                            <p>Möchtest du die News wirklich löschen?</p>
+                        </div><!-- /.container -->
+
+                    </div><!-- /.modal-body -->
+                    <!-- ============================================================= MODAL CONTENT : END ============================================================= -->
+
+                    <div class="modal-footer">
+                        <a class=""></a>
+                        <button type="submit" class="btn btn-large">Ja</button>
+                    </div><!-- /.modal-footer -->
+
+                </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+}

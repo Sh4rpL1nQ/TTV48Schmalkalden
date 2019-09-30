@@ -30,7 +30,7 @@ namespace TTV48Schmalkalden.Controllers
         public IActionResult Index(int id, int category)
         {
             var list = new NewsListViewModel();
-            var news = context.News.OrderByDescending(x => x.Id);
+            var news = context.News.OrderByDescending(x => x.Written);
             var comments = context.Comments.Include(x => x.News);
             var hasCategories = context.HasCategories.Include(x => x.News).Include(x => x.Category);
             var newsWithCategory = hasCategories.Where(y => y.CategoryId == category)
@@ -149,29 +149,6 @@ namespace TTV48Schmalkalden.Controllers
             context.SaveChanges();
 
             return RedirectToAction("Detail", "News", new { id = targetNews.Id });
-        }
-        
-        public IActionResult Admin()
-        {
-            if (session.GetString("user") == null)
-            {
-                return RedirectToAction("Home", "Error");
-            }
-
-            var news = context.News.OrderByDescending(x => x.Written);
-            var model = new NewsViewModels();
-
-            foreach (var entry in news)
-            {
-                model.News.Add(new AdminNewsViewModel()
-                {
-                    NewsId = entry.Id,
-                    Body = entry.Body,
-                    Title = entry.Title
-                });
-            }
-
-            return View(model);
         }
     }
 }

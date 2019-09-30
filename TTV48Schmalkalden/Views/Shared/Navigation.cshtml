@@ -53,7 +53,7 @@
                             <ul class="dropdown-menu" style="right: auto;">
                                 @if (HttpContextAccessor.HttpContext.Session.GetString("user") != null)
                                 {
-                                    <li><a asp-controller="News" asp-action="Admin">Admin</a></li>
+                                    <li><a asp-controller="Admin" asp-action="Index">Admin</a></li>
                                 }
                                 @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
                                 {

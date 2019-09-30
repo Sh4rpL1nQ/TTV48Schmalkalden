@@ -14,5 +14,8 @@ namespace Data.Models
 
         [Required]
         public string Password { get; set; }
+
+        [Required]
+        public string FullName { get; set; }
     }
 }
