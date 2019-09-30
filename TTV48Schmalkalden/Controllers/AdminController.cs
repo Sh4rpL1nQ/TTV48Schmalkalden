@@ -26,7 +26,7 @@ namespace TTV48Schmalkalden.Controllers
 
         public IActionResult Index()
         {
-            if (session.GetString("user") == null) return RedirectToAction("Home", "Error");
+            //if (session.GetString("user") == null) return RedirectToAction("Home", "Error");
 
             var news = context.News.OrderByDescending(x => x.Written);
             var model = new NewsViewModels();
@@ -57,7 +57,7 @@ namespace TTV48Schmalkalden.Controllers
 
         public IActionResult Edit(int id)
         {
-            if (session.GetString("user") == null) return RedirectToAction("Home", "Error");
+            //if (session.GetString("user") == null) return RedirectToAction("Home", "Error");
 
             var targetNews = context.News.SingleOrDefault(x => x.Id == id);
             var model = new EditNewsViewModel();
@@ -98,7 +98,7 @@ namespace TTV48Schmalkalden.Controllers
         [HttpPost]
         public IActionResult Edit(EditNewsViewModel model)
         {
-            if (session.GetString("user") == null) return RedirectToAction("Home", "Error");
+            //if (session.GetString("user") == null) return RedirectToAction("Home", "Error");
             var news = model.News;
             var categories = model.Categories;
             var oldCategories = context.HasCategories.Include(x => x.News).Include(x => x.Category)

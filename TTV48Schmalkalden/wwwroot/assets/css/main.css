@@ -3621,7 +3621,7 @@ input[type="color"],
     font-size: 14px;
     line-height: 25px;
     color: #73879C;
-    resize: none;
+    resize: vertical;
     vertical-align: middle;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -3659,7 +3659,6 @@ textarea {
     padding: 10px;
     margin-bottom: 15px;
     min-height: 150px;
-    resize: vertical;
 }
 textarea.form-control {
 	padding: 10px;

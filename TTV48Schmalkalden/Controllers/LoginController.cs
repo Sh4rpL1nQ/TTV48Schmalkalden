@@ -36,6 +36,9 @@ namespace TTV48Schmalkalden.Controllers
             if (ModelState.IsValid)
             {
                 User target = context.Users.SingleOrDefault(x => x.UserName == model.UserName);
+
+                if (target == null) return RedirectToAction("Index", "Home");
+
                 string pass = target.Password;
                 string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                     password: model.Password,

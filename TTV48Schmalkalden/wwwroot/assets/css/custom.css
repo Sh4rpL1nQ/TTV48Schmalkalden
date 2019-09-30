@@ -5,3 +5,7 @@
 /*===================================================================================*/
 
 /* Insert your own styles in here! */
+
+.textarealong {
+    height: 400px!important;
+}

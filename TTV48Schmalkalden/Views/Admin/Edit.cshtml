@@ -4,42 +4,93 @@
 }
 
 <section id="blog-post" class="light-bg">
-    <div class="container inner-top-sm inner-bottom">
-        <div class="comment-form-wrapper">
-            <form id="loginform" class="forms" asp-action="Edit" method="post">
-
-                <div class="row">
-                    <div class="col-md-12">
-                        @Html.TextBoxFor(model => model.News.Title, new { @class = "form-control", placeholder = "Titel" })
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-
-                <div class="row">
-                    <div class="col-md-12">
-                        @Html.TextAreaFor(model => model.News.Body, new { @class = "form-control", placeholder = "Body" })
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-
-                <div class="row">
-                    <div class="col-md-12">
-                        @Html.ListBoxFor(
-                       model => model.Categories,
-                       new MultiSelectList(Model.AllCategories, "Id", "Name"),
-                       new { @class = "chosen-select chosen-width", @multiple = "true", @id = "ccc"})
-                    </div>
-                </div>
-                @Html.HiddenFor(x => x.News.Id)
-                @Html.HiddenFor(x => x.News.Author)
-                @Html.HiddenFor(x => x.News.Written)
-                @for (int i = 0; i < Model.Categories.Length; i++)
-                {
-                    @Html.HiddenFor(model => Model.Categories[i])
-                }
-                <button id="" type="submit" class="btn btn-submit">Speichern</button>
-            </form>
-        </div>
+    <div class="container inner-top-sm inner-bottom classic-blog">
+    <div class="row text-center inner-bottom-xs">
+        <h2 style="width:100%;">Bearbeitung</h2>
     </div>
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="">
+                    <div class="comment-form-wrapper">
+                        <form id="editNewsForm" class="forms" asp-action="Edit" method="post">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.TextBoxFor(model => model.News.Title, new { @class = "form-control", placeholder = "Titel" })
+                                </div><!-- /.col -->
+                            </div><!-- /.row -->
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.TextAreaFor(model => model.News.Body, new { @class = "form-control textarealong", placeholder = "Body" })
+                                </div><!-- /.col -->
+                            </div><!-- /.row -->
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.ListBoxFor(
+                                   model => model.Categories,
+                                   new MultiSelectList(Model.AllCategories, "Id", "Name"),
+                                   new { @class = "chosen-select form-control", @multiple = "true", @id = "ccc"})
+                                </div>
+                            </div>
+                            @Html.HiddenFor(x => x.News.Id)
+                            @Html.HiddenFor(x => x.News.Author)
+                            @Html.HiddenFor(x => x.News.Written)
+                            @for (int i = 0; i < Model.Categories.Length; i++)
+                            {
+                                @Html.HiddenFor(model => Model.Categories[i])
+                            }
+                            <button id="" type="submit" class="btn btn-submit" style="width:100%;">Speichern</button>
+                        </form>
+
+                        <div id="response"></div>
+
+                    </div><!-- /.comment-form-wrapper -->
+
+                </div><!-- /.sidemeta -->
+            </div><!-- /.col -->
+
+            <aside class="col-lg-5">
+
+                <div class="sidebox widget inner-left-xs inner-right-xs inner-xs" style="background-color:lightgoldenrodyellow;">
+                    <h4>Hinweise</h4>
+                    <h5>Textabschnitte</h5>
+                    <p>Textabschnitte werden zwischen die beiden p-Symbole geschrieben.</p>
+                    <ul class="circled"><li>&lt;p&gt;Hallo Welt&lt;/p&gt;</li></ul>
+                    <p>Wichtig ist, dass das Endsymbol immer einen Querstrich aufweist.</p>
+                    <h5>Listen oder Aufzählungen</h5>
+                    <p>
+                        Um eine Liste anzeigen zu lassen, muss man sich zuvor entscheiden, ob es eine ungeordnete oder geordnete Liste (Zahlen von 1 bis N)
+                        sein soll. Eine ungeordnete Aufzählung deklariert man mit dem ul-Symbol und der Klasse "circled".
+                        Für jedes Element der Liste muss nun zwischen die beiden li-Symbole geschrieben werden.
+                    </p>
+                    <ul class="circled">
+                        <li>
+                            &lt;ul class=&quot;circled&quot;&gt;<br />
+                            &lt;li&gt;Hallo Welt 1&lt;/li&gt;<br />
+                            &lt;li&gt;Hallo Welt 2&lt;/li&gt;<br />
+                            &lt;/ul&gt;
+                        </li>
+                    </ul>
+                    <p>Wichtig ist, dass sich die Listenelemente (li) immer innerhalb der ul-Symbole befinden.</p>
+                    <p>Eine geordnete Liste wird folgendermaßen erstellt. Sie funktioniert genauso wie im oberen Beispiel bis auf zwei minimale Unterschiede.
+                    Anstelle des ul-Symboles, wird ein ol-Symbol geschrieben. Desweiteren wird die Klasse "circled" komplett weggelassen.</p>
+                    <ul class="circled">
+                        <li>
+                            &lt;ol&gt;<br />
+                            &lt;li&gt;Hallo Welt 1&lt;/li&gt;<br />
+                            &lt;li&gt;Hallo Welt 2&lt;/li&gt;<br />
+                            &lt;/ol&gt;
+                        </li>
+                    </ul>
+                </div><!-- /.widget -->
+
+            </aside>
+
+        </div><!-- /.row -->
+    </div><!-- /.container -->
 </section>
+
 
 <script>
 
