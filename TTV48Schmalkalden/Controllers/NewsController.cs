@@ -155,7 +155,7 @@ namespace TTV48Schmalkalden.Controllers
         {
             if (session.GetString("user") == null)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Home", "Error");
             }
 
             var news = context.News.OrderByDescending(x => x.Written);
@@ -173,7 +173,5 @@ namespace TTV48Schmalkalden.Controllers
 
             return View(model);
         }
-
-
     }
 }
