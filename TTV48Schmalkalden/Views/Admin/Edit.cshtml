@@ -5,9 +5,100 @@
 
 <section id="blog-post" class="light-bg">
     <div class="container inner-top-sm inner-bottom classic-blog">
-    <div class="row text-center inner-bottom-xs">
-        <h2 style="width:100%;">Bearbeitung</h2>
-    </div>
+        <div class="row text-center inner-bottom-xs">
+            <h2 style="width:100%;">Bearbeitung</h2>
+        </div>
+        <section id="" class="light-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="" class="panel-group">
+                            <div class="panel panel-default">
+
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="panel-toggle closedAtBeginning" href="#content1" data-toggle="collapse">
+                                            <span>Bilder hochladen</span>
+                                        </a>
+                                    </h4>
+                                </div><!-- /.panel-heading -->
+                                <div id="content1" class="panel-collapse collapse show">
+                                    <div class="panel-body">
+                                        <form asp-action="ImageUpload" style="width:100%;" method="post" enctype="multipart/form-data">
+                                            <div class="col-md-12 inner-bottom-xs">
+                                                <input asp-for="UploadImagesViewModel.File" type="file" class="form-control custom-file-input" placeholder="Bilder" />
+                                                <label class="custom-file-label">Auswählen...</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                @Html.TextAreaFor(x => x.UploadImagesViewModel.Description, new { @class = "form-control", @placeholder = "Bildunterschrift" })
+                                            </div>
+                                            @Html.HiddenFor(x => x.News.Id)
+                                            @Html.HiddenFor(x => x.News.Title)
+                                            @Html.HiddenFor(x => x.News.Written)
+                                            @Html.HiddenFor(x => x.News.ImageUrl)
+                                            @Html.HiddenFor(x => x.News.Body)
+                                            <button type="submit" class="btn btn-large col-md-12">Upload</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="" class="light-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="" class="panel-group">
+                            <div class="panel panel-default">
+
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="panel-toggle closedAtBeginning" href="#content2" data-toggle="collapse">
+                                            <span>Bereits hochgeladene Bilder</span>
+                                        </a>
+                                    </h4>
+                                </div><!-- /.panel-heading -->
+
+                                <div id="content2" class="panel-collapse collapse show">
+                                    <div class="panel-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th class="" style="font-size:14px;width:15%;">Titel</th>
+                                                    <th style="font-size:14px;width:75%;">Bildunterschrift</th>
+                                                    <th style="font-size:14px;width:10%;">Bild</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var image in Model.Images)
+                                                {
+                                                    <tr>
+                                                        <td class="" style="vertical-align:middle;">
+                                                            <a style="font-size:14px;display:inline;">&lt;img src=&quot;@image.ImageUrl&quot;&gt;</a>
+                                                        </td>
+                                                        <td class="" style="vertical-align:middle;">
+                                                            <a style="font-size:14px;display:inline;">&lt;figcaption&gt;@image.ImageDescription&lt;/figcaption&gt;</a>
+                                                        </td>
+                                                        <td class="" style="vertical-align:middle;">
+                                                            <img src="@image.ImageUrl" style="width:100%;height:auto;display:inline;" />
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div><!-- /.panel-body -->
+                                </div><!-- /.content -->
+
+                            </div><!-- /.panel -->
+                        </div><!-- /.accordion -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section>
         <div class="row">
             <div class="col-lg-7">
                 <div class="">
@@ -73,14 +164,32 @@
                         </li>
                     </ul>
                     <p>Wichtig ist, dass sich die Listenelemente (li) immer innerhalb der ul-Symbole befinden.</p>
-                    <p>Eine geordnete Liste wird folgendermaßen erstellt. Sie funktioniert genauso wie im oberen Beispiel bis auf zwei minimale Unterschiede.
-                    Anstelle des ul-Symboles, wird ein ol-Symbol geschrieben. Desweiteren wird die Klasse "circled" komplett weggelassen.</p>
+                    <p>
+                        Eine geordnete Liste wird folgendermaßen erstellt. Sie funktioniert genauso wie im oberen Beispiel bis auf zwei minimale Unterschiede.
+                        Anstelle des ul-Symboles, wird ein ol-Symbol geschrieben. Desweiteren wird die Klasse "circled" komplett weggelassen.
+                    </p>
                     <ul class="circled">
                         <li>
                             &lt;ol&gt;<br />
                             &lt;li&gt;Hallo Welt 1&lt;/li&gt;<br />
                             &lt;li&gt;Hallo Welt 2&lt;/li&gt;<br />
                             &lt;/ol&gt;
+                        </li>
+                    </ul>
+                    <h5>Bilder einfügen</h5>
+                    <p>
+                        Um ein Bild einzufügen, müssen Sie es als erstes hochladen. Dafür dient das erste Dropdown Menü. Dort einfach auf den Auswahl-Button
+                        drücken und das gewünschte Bild auswählen. Anschließend kann man in der darunter liegenden Textarea die Bildunterschrift eingeben. Zuguter letzt einfach auf "Upload" klicken
+                        und das Bild wurde hochgeladen. Als Nebeneffekt erscheint dieses Bild nun in der Tabelle der vorhandenen Bilder. Die erste Spalte enthält das Symbol, welches sie einfach
+                        kopieren und an beliebiger Stelle im Gesamttext unterbringen können. Beachten müssen Sie, dass sie das img-Symbol nur innerhalb des figure-Symboles nutzen dürfen.
+                        Für die Bildunterschrift gilt das selbe. Sie muss sich im selben Symbol unterhalb des img-Symboles befinden. Hier ein kurzes Beispiel:
+                    </p>
+                    <ul class="circled">
+                        <li>
+                            &lt;figure&gt;<br />
+                            &lt;img src=&quot;Hallo Welt&quot; /&gt;<br />
+                            &lt;figcaption&gt;Hallo Welt&lt;/figcaption&gt;<br />
+                            &lt;/figure&gt;
                         </li>
                     </ul>
                 </div><!-- /.widget -->
@@ -90,37 +199,3 @@
         </div><!-- /.row -->
     </div><!-- /.container -->
 </section>
-
-
-<script>
-
-    var isMobile = {
-        Android: function () {
-            return navigator.userAgent.match(/Android/i);
-        },
-        BlackBerry: function () {
-            return navigator.userAgent.match(/BlackBerry/i);
-        },
-        iOS: function () {
-            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        },
-        Opera: function () {
-            return navigator.userAgent.match(/Opera Mini/i);
-        },
-        Windows: function () {
-            return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
-        },
-        any: function () {
-            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-        }
-    };
-
-    window.onload = function () {
-        if (isMobile) {
-            ccc.style.display = "none";
-        } else {
-            ccc.style.display = "block";
-        }
-    }
-</script>
-

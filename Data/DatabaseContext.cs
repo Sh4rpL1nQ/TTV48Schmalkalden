@@ -25,5 +25,7 @@ namespace Data
         public DbSet<HasCategory> HasCategories { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Image> Images { get; set; }
     }
 }

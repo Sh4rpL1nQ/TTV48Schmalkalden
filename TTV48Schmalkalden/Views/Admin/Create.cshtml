@@ -1,0 +1,200 @@
+﻿@model TTV48Schmalkalden.Models.EditNewsViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<section id="blog-post" class="light-bg">
+    <div class="container inner-top-sm inner-bottom classic-blog">
+        <div class="row text-center inner-bottom-xs">
+            <h2 style="width:100%;">Neue News</h2>
+        </div>
+        <div class="row text-center inner-bottom-xs">
+            <p style="width:100%;">Wichtig! Erst alle Bilder hochladen. Dann erst News schreiben!</p>
+        </div>
+        <section id="" class="light-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="" class="panel-group">
+                            <div class="panel panel-default">
+
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="panel-toggle closedAtBeginning" href="#contentx" data-toggle="collapse">
+                                            <span>Bilder hochladen</span>
+                                        </a>
+                                    </h4>
+                                </div><!-- /.panel-heading -->
+                                <div id="contentx" class="panel-collapse collapse show">
+                                    <div class="panel-body">
+                                        <form asp-action="ImageUpload" class="forms" style="width:100%;" method="post" enctype="multipart/form-data">
+                                            <div class="col-md-12 inner-bottom-xs">
+                                                <input style="width:100%;" asp-for="UploadImagesViewModel.File" type="file" class="form-control custom-file-input" placeholder="Bilder" />
+                                                <label style="width:100%;" class="custom-file-label">Auswählen...</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                @Html.TextAreaFor(x => x.UploadImagesViewModel.Description, new { @class = "form-control", @placeholder = "Bildunterschrift" })
+                                            </div>
+                                            @Html.HiddenFor(x => x.News.Id)
+                                            <button type="submit" class="btn btn-large col-md-12">Upload</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="" class="light-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="" class="panel-group">
+                            <div class="panel panel-default">
+
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="panel-toggle closedAtBeginning" href="#content2" data-toggle="collapse">
+                                            <span>Bereits hochgeladene Bilder</span>
+                                        </a>
+                                    </h4>
+                                </div><!-- /.panel-heading -->
+
+                                <div id="content2" class="panel-collapse collapse show">
+                                    <div class="panel-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th class="" style="font-size:14px;width:15%;">Titel</th>
+                                                    <th style="font-size:14px;width:75%;">Bildunterschrift</th>
+                                                    <th style="font-size:14px;width:10%;">Bild</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var image in Model.Images)
+                                                {
+                                                    <tr>
+                                                        <td class="" style="vertical-align:middle;">
+                                                            <a style="font-size:14px;display:inline;">&lt;img src=&quot;@image.ImageUrl&quot;&gt;</a>
+                                                        </td>
+                                                        <td class="" style="vertical-align:middle;">
+                                                            <a style="font-size:14px;display:inline;">&lt;figcaption&gt;@image.ImageDescription&lt;/figcaption&gt;</a>
+                                                        </td>
+                                                        <td class="" style="vertical-align:middle;">
+                                                            <img src="@image.ImageUrl" style="width:100%;height:auto;display:inline;" />
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div><!-- /.panel-body -->
+                                </div><!-- /.content -->
+
+                            </div><!-- /.panel -->
+                        </div><!-- /.accordion -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section>
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="">
+                    <div class="comment-form-wrapper">
+                        <form id="createNewsForm" class="forms" asp-action="Create" method="post">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.TextBoxFor(model => model.News.Title, new { @class = "form-control", placeholder = "Titel" })
+                                </div><!-- /.col -->
+                            </div><!-- /.row -->
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.TextAreaFor(model => model.News.Body, new { @class = "form-control textarealong", placeholder = "Body" })
+                                </div><!-- /.col -->
+                            </div><!-- /.row -->
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.ListBoxFor(
+                                   model => model.Categories,
+                                   new MultiSelectList(Model.AllCategories, "Id", "Name"),
+                                   new { @class = "chosen-select form-control", @multiple = "true", @id = "ccc"})
+                                </div>
+                            </div>
+                            @Html.HiddenFor(x => x.News.Id)
+                            @Html.HiddenFor(x => x.News.Author)
+                            @Html.HiddenFor(x => x.News.Written)
+                            @for (int i = 0; i < Model.Categories.Length; i++)
+                            {
+                                @Html.HiddenFor(model => Model.Categories[i])
+                            }
+                            <button id="" type="submit" class="btn btn-submit" style="width:100%;">Speichern</button>
+                        </form>
+
+                        <div id="response"></div>
+
+                    </div><!-- /.comment-form-wrapper -->
+
+                </div><!-- /.sidemeta -->
+            </div><!-- /.col -->
+
+            <aside class="col-lg-5">
+
+                <div class="sidebox widget inner-left-xs inner-right-xs inner-xs" style="background-color:lightgoldenrodyellow;">
+                    <h4>Hinweise</h4>
+                    <h5>Textabschnitte</h5>
+                    <p>Textabschnitte werden zwischen die beiden p-Symbole geschrieben.</p>
+                    <ul class="circled"><li>&lt;p&gt;Hallo Welt&lt;/p&gt;</li></ul>
+                    <p>Wichtig ist, dass das Endsymbol immer einen Querstrich aufweist.</p>
+                    <h5>Listen oder Aufzählungen</h5>
+                    <p>
+                        Um eine Liste anzeigen zu lassen, muss man sich zuvor entscheiden, ob es eine ungeordnete oder geordnete Liste (Zahlen von 1 bis N)
+                        sein soll. Eine ungeordnete Aufzählung deklariert man mit dem ul-Symbol und der Klasse "circled".
+                        Für jedes Element der Liste muss nun zwischen die beiden li-Symbole geschrieben werden.
+                    </p>
+                    <ul class="circled">
+                        <li>
+                            &lt;ul class=&quot;circled&quot;&gt;<br />
+                            &lt;li&gt;Hallo Welt 1&lt;/li&gt;<br />
+                            &lt;li&gt;Hallo Welt 2&lt;/li&gt;<br />
+                            &lt;/ul&gt;
+                        </li>
+                    </ul>
+                    <p>Wichtig ist, dass sich die Listenelemente (li) immer innerhalb der ul-Symbole befinden.</p>
+                    <p>
+                        Eine geordnete Liste wird folgendermaßen erstellt. Sie funktioniert genauso wie im oberen Beispiel bis auf zwei minimale Unterschiede.
+                        Anstelle des ul-Symboles, wird ein ol-Symbol geschrieben. Desweiteren wird die Klasse "circled" komplett weggelassen.
+                    </p>
+                    <ul class="circled">
+                        <li>
+                            &lt;ol&gt;<br />
+                            &lt;li&gt;Hallo Welt 1&lt;/li&gt;<br />
+                            &lt;li&gt;Hallo Welt 2&lt;/li&gt;<br />
+                            &lt;/ol&gt;
+                        </li>
+                    </ul>
+                    <h5>Bilder einfügen</h5>
+                    <p>
+                        Um ein Bild einzufügen, müssen Sie es als erstes hochladen. Dafür dient das erste Dropdown Menü. Dort einfach auf den Auswahl-Button
+                        drücken und das gewünschte Bild auswählen. Anschließend kann man in der darunter liegenden Textarea die Bildunterschrift eingeben. Zuguter letzt einfach auf "Upload" klicken
+                        und das Bild wurde hochgeladen. Als Nebeneffekt erscheint dieses Bild nun in der Tabelle der vorhandenen Bilder. Die erste Spalte enthält das Symbol, welches sie einfach
+                        kopieren und an beliebiger Stelle im Gesamttext unterbringen können. Beachten müssen Sie, dass sie das img-Symbol nur innerhalb des figure-Symboles nutzen dürfen.
+                        Für die Bildunterschrift gilt das selbe. Sie muss sich im selben Symbol unterhalb des img-Symboles befinden. Hier ein kurzes Beispiel:
+                    </p>
+                    <ul class="circled">
+                        <li>
+                            &lt;figure&gt;<br />
+                            &lt;img src=&quot;Hallo Welt&quot; /&gt;<br />
+                            &lt;figcaption&gt;Hallo Welt&lt;/figcaption&gt;<br />
+                            &lt;/figure&gt;
+                        </li>
+                    </ul>
+                </div><!-- /.widget -->
+
+            </aside>
+
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+</section>

@@ -1,4 +1,5 @@
 ﻿using Data.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -113,6 +114,17 @@ namespace TTV48Schmalkalden.Models
         public string[] Categories { get; set; }
 
         public List<Category> AllCategories { get; set; } = new List<Category>();
+
+        public List<Image> Images { get; set; } = new List<Image>();
+
+        public UploadImagesViewModel UploadImagesViewModel { get; set; }
+    }
+
+    public class UploadImagesViewModel
+    {
+        public IFormFile File { get; set; }
+
+        public string Description { get; set; }
     }
 
     public class NewsViewModel
@@ -126,6 +138,8 @@ namespace TTV48Schmalkalden.Models
         public string Body { get; set; }
 
         public DateTime Written { get; set; }
+
+        public string ImageUrl { get; set; }
 
         public int CommentCount { get; set; }
 

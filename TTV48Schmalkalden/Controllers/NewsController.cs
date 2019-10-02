@@ -74,6 +74,7 @@ namespace TTV48Schmalkalden.Controllers
                         Body = entry.Body.Length >= MaxBodyDigits ?
                             (entry.Body.Substring(0, MaxBodyDigits) + ToBeContinued) :
                             entry.Body.ToString(),
+                        ImageUrl = entry.ImageUrl,
                         Categories = hasCategories.Where(x => x.NewsId == entry.Id).Select(y => y.Category).ToList(),
                         CommentCount = comments.Where(y => y.News.Id == entry.Id).Count()
                     };
@@ -116,6 +117,7 @@ namespace TTV48Schmalkalden.Controllers
                 Body = targetNews.Body,
                 Categories = newsCategories,
                 CommentCount = comments.Count,
+                ImageUrl = targetNews.ImageUrl
             };
 
             foreach (var cat in allCategories)

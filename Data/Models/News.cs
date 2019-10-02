@@ -16,5 +16,7 @@ namespace Data.Models
         public string Body { get; set; }
 
         public DateTime Written { get; set; }
+
+        public string ImageUrl { get; set; }
     }
 }

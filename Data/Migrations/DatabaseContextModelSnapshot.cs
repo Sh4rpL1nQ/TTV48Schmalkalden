@@ -66,6 +66,25 @@ namespace Data.Migrations
                     b.ToTable("HasCategories");
                 });
 
+            modelBuilder.Entity("Data.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageDescription");
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<int?>("NewsId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NewsId");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("Data.Models.News", b =>
                 {
                     b.Property<int>("Id")
@@ -75,6 +94,8 @@ namespace Data.Migrations
                     b.Property<string>("Author");
 
                     b.Property<string>("Body");
+
+                    b.Property<string>("ImageUrl");
 
                     b.Property<string>("Title");
 
@@ -123,6 +144,13 @@ namespace Data.Migrations
                         .WithMany()
                         .HasForeignKey("NewsId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Data.Models.Image", b =>
+                {
+                    b.HasOne("Data.Models.News", "News")
+                        .WithMany()
+                        .HasForeignKey("NewsId");
                 });
 #pragma warning restore 612, 618
         }

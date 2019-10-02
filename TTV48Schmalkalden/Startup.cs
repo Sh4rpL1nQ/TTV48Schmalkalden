@@ -64,8 +64,9 @@ namespace TTV48Schmalkalden
         {
             if (env.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
+                app.UseDeveloperExceptionPage();
+                //app.UseExceptionHandler("/Home/Error");
+                //app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
             }
             else
             {                
