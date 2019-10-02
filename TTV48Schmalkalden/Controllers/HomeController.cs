@@ -31,18 +31,13 @@ namespace TTV48Schmalkalden.Controllers
                 };
                 list.News.Add(model);
             }
+
             return View(list);
         }
 
         public IActionResult Redirection(string tag)
         {
             return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + "#" + tag);
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

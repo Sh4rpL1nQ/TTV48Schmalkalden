@@ -51,7 +51,7 @@
                             <a href="" class="dropdown-toggle" data-toggle="dropdown" style="padding-right: 15px;">News <i class="icon-down-open"></i></a>
 
                             <ul class="dropdown-menu" style="right: auto;">
-                                @if (HttpContextAccessor.HttpContext.Session.GetString("user") == null)
+                                @if (HttpContextAccessor.HttpContext.Session.GetString("user") != null)
                                 {
                                     <li><a asp-controller="Admin" asp-action="Index">Admin</a></li>
                                 }

@@ -30,7 +30,7 @@ namespace TTV48Schmalkalden.Controllers
 
         public IActionResult Index()
         {
-            //if (session.GetString("user") == null) return RedirectToAction("Home", "Error");
+            if (session.GetString("user") == null) return RedirectToAction("PageNotFound", "Error");
 
             var news = context.News.OrderByDescending(x => x.Written);
             var model = new NewsViewModels();
@@ -50,43 +50,40 @@ namespace TTV48Schmalkalden.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            //if (session.GetString("user") == null) return RedirectToAction("Home", "Error");
+            if (session.GetString("user") == null) return RedirectToAction("PageNotFound", "Error");
+            if (id < 1) return RedirectToAction("PageNotFound", "Error");
 
-            var images = context.Images.AsNoTracking().Include(x => x.News).Where(x => x.News.Id == id).ToList();
-            if (images != null && images.Count > 0)
-                context.Images.RemoveRange(images);
+            if (ModelState.IsValid)
+            {
+                var images = context.Images.AsNoTracking().Include(x => x.News).Where(x => x.News.Id == id).ToList();
+                if (images != null && images.Count > 0)
+                    context.Images.RemoveRange(images);
 
-            context.SaveChanges();
+                context.SaveChanges();
 
-            News news = new News() { Id = id };
-            context.News.Remove(news);
-            context.SaveChanges();
+                News news = new News() { Id = id };
+                context.News.Remove(news);
+                context.SaveChanges();
+            }
+            
             return RedirectToAction("Index", "Admin");
         }
 
         public IActionResult Edit(int id)
         {
-            //if (session.GetString("user") == null) return RedirectToAction("Home", "Error");
+            if (session.GetString("user") == null) return RedirectToAction("PageNotFound", "Error");
+            if (id < 1) return RedirectToAction("PageNotFound", "Error");
 
-            var targetNews = context.News.SingleOrDefault(x => x.Id == id);
-            var imageData = context.Images.Include(x => x.News);
-
-            //Images
-            List<Image> images = new List<Image>();
             var model = new EditNewsViewModel();
-            if (targetNews == null && id == 0)
+
+            if (ModelState.IsValid)
             {
-                model.News = new News()
-                {
-                    Id = id,
-                    Written = DateTime.Now,
-                    Author = context.Users.SingleOrDefault(x => x.UserName.Equals(session.GetString("user")))?.FullName,
-                    Body = string.Empty,
-                    Title = string.Empty
-                };
-            }
-            else
-            {
+                var targetNews = context.News.SingleOrDefault(x => x.Id == id);
+                var imageData = context.Images.Include(x => x.News);
+
+                //Images
+                List<Image> images = new List<Image>();
+ 
                 model.News = new News()
                 {
                     Id = targetNews.Id,
@@ -96,24 +93,26 @@ namespace TTV48Schmalkalden.Controllers
                     Title = targetNews.Title
                 };
                 images = imageData.Where(x => x.News.Id == targetNews.Id).ToList();
+
+                var categories = context.Categories.Where(x => !x.Name.Equals("Alle")).ToList();
+                var newsCategories = context.HasCategories.Include(x => x.News).Include(x => x.Category)?
+                    .Where(y => y.News.Id == id && !y.Category.Name.Equals("Alle"))?
+                    .Select(y => y.Category);
+
+                categories.ToList().ForEach(x => model.AllCategories.Add(x));
+
+                model.Categories = newsCategories.Select(x => x.Id.ToString()).ToArray();
+                model.Images = images;
+                model.UploadImagesViewModel = new UploadImagesViewModel();
             }
-
-            var categories = context.Categories.Where(x => !x.Name.Equals("Alle")).ToList();
-            var newsCategories = context.HasCategories.Include(x => x.News).Include(x => x.Category)?
-                .Where(y => y.News.Id == id && !y.Category.Name.Equals("Alle"))?
-                .Select(y => y.Category);
-
-            categories.ToList().ForEach(x => model.AllCategories.Add(x));
-
-            model.Categories = newsCategories.Select(x => x.Id.ToString()).ToArray();
-            model.Images = images;
-            model.UploadImagesViewModel = new UploadImagesViewModel();
 
             return View(model);
         }
 
         public IActionResult Create()
         {
+            if (session.GetString("user") == null) return RedirectToAction("PageNotFound", "Error");
+
             //Images
             var model = new EditNewsViewModel();
             model.Images = context.Images.Include(x => x.News).Where(x => x.News == null).ToList();
@@ -142,7 +141,7 @@ namespace TTV48Schmalkalden.Controllers
         [HttpPost]
         public IActionResult Create(EditNewsViewModel model)
         {
-            //if (session.GetString("user") == null) return RedirectToAction("Home", "Error");
+            if (session.GetString("user") == null) return RedirectToAction("PageNotFound", "Error");
 
             var news = model.News;
             var categories = model.Categories;
@@ -182,7 +181,7 @@ namespace TTV48Schmalkalden.Controllers
         [HttpPost]
         public IActionResult Edit(EditNewsViewModel model)
         {
-            //if (session.GetString("user") == null) return RedirectToAction("Home", "Error");
+            if (session.GetString("user") == null) return RedirectToAction("PageNotFound", "Error");
 
             var news = model.News;
             var categories = model.Categories;
@@ -225,7 +224,7 @@ namespace TTV48Schmalkalden.Controllers
         [HttpPost]
         public IActionResult ImageUpload(EditNewsViewModel model)
         {
-            //if (session.GetString("user") == null) return RedirectToAction("Home", "Error");
+            if (session.GetString("user") == null) return RedirectToAction("PageNotFound", "Error");
 
             var image = model.UploadImagesViewModel.File;
             var targetNews = context.News.SingleOrDefault(x => x.Id == model.News.Id);
