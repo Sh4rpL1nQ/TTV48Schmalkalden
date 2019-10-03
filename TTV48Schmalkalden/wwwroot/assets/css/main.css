@@ -2983,7 +2983,6 @@ blockquote:before {
     text-decoration: inherit;
     position: absolute;
     text-align: center;
-    content: '\2b';
     width: 60px;
     height: 60px;
     font-size: 60px;
@@ -3002,9 +3001,6 @@ blockquote:before {
 .icon-overlay a:hover .icn-more:before {
     font-size: 30px;
 	padding-top: 15px;
-}
-.icon-overlay.icn-link a .icn-more:before {
-    content: '\2b';
 }
 
 

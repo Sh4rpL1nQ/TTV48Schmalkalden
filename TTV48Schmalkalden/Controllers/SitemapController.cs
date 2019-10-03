@@ -50,6 +50,12 @@ namespace TTV48Schmalkalden.Controllers
                     ChangeFrequency = ChangeFrequency.Never,
                     LastModificationDate = DateTime.UtcNow,
                     Priority = 0.1M
+                },
+                new SitemapNode(Url.Action("Index", "Support"))
+                {
+                    ChangeFrequency = ChangeFrequency.Monthly,
+                    LastModificationDate = DateTime.UtcNow,
+                    Priority = 0.4M
                 }
             };
 

@@ -11,6 +11,7 @@ namespace TTV48Schmalkalden.Controllers
 {
     public class ContactController : Controller
     {
+        [Route("kontakt")]
         public IActionResult Index()
         {
             return View();
@@ -35,11 +36,6 @@ namespace TTV48Schmalkalden.Controllers
             }
 
             return View(contactModel);
-        }
-
-        public IActionResult Redirection(string tag)
-        {
-            return Redirect(Url.RouteUrl(new { controller = "Contact", action = "Index" }) + "#" + tag);
         }
     }
 }

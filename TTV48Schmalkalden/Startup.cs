@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -66,7 +67,7 @@ namespace TTV48Schmalkalden
         {
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
                 //app.UseStatusCodePagesWithReExecute("/Error/InternalServerError");
                 /*app.Use(async (ctx, next) =>
                 {
@@ -105,6 +106,7 @@ namespace TTV48Schmalkalden
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
             app.UseSession();
 
             app.UseMvc(routes =>

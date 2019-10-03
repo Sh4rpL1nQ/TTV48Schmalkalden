@@ -25,6 +25,7 @@ namespace TTV48Schmalkalden.Controllers
             session = httpContextAccessor.HttpContext.Session;
         }
 
+        [Route("login")]
         public IActionResult Index()
         {
             return View();
@@ -56,6 +57,7 @@ namespace TTV48Schmalkalden.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Route("logout")]
         public ActionResult Logout()
         {
             session.Clear();

@@ -9,6 +9,7 @@ using TTV48Schmalkalden.Models;
 
 namespace TTV48Schmalkalden.Controllers
 {
+    [Route("[controller]/[action]")]
     public class HomeController : Controller
     {
         private DatabaseContext context;
@@ -18,6 +19,8 @@ namespace TTV48Schmalkalden.Controllers
             this.context = context;
         }
 
+        [Route("/")]
+        [Route("/startseite")]
         public IActionResult Index()
         {
             var news = context.News.Count() >= 8 ? context.News.OrderByDescending(x => x.Id).Take(8) : context.News.OrderByDescending(x => x.Id);
@@ -33,11 +36,6 @@ namespace TTV48Schmalkalden.Controllers
             }
 
             return View(list);
-        }
-
-        public IActionResult Redirection(string tag)
-        {
-            return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + "#" + tag);
         }
     }
 }

@@ -1,0 +1,51 @@
+﻿@model TTV48Schmalkalden.Models.SupporterViewModel
+
+@{
+    ViewData["Title"] = "Unterstützer und Freunde";
+}
+
+<section id="portfolio" class="light-bg">
+    <div class="container inner">
+        <div class="row">
+            <div class="col-lg-8 col-md-9 mx-auto text-center">
+                <header>
+                    <h1>Hier sind unsere Unterstützer und Freunde aufgelistet.</h1>
+                </header>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+
+    <div class="container inner-bottom">
+        <div class="row">
+            <div class="col-md-12 portfolio">
+
+                <ul class="filter text-center">
+                    <li><a href="#" data-filter="*" class="active">Alle</a></li>
+                    <li><a href="#" data-filter=".sponsor">Sponsoren</a></li>
+                    <li><a href="#" data-filter=".freund">Freunde</a></li>
+                    <li><a href="#" data-filter=".ausstatter">Ausstatter</a></li>
+                </ul><!-- /.filter -->
+
+                <ul class="isotope items col-3-custom gap">
+                    @foreach (var sup in Model.Supporter)
+                    {
+                        <li class="item thumb @sup.SupportingType.TypeName.ToLower()">
+                            <figure style="min-height:200px!important;">
+                                <div class="icon-overlay icn-more">
+                                    <figcaption style="min-height:200px!important;" class="bordered no-top-border">
+                                        <div class="info text-center">
+                                            <h4>@sup.Bussines</h4>
+                                            <br /><a href="@sup.Link"></a>
+                                            <p>@sup.Owner</p>                                           
+                                        </div><!-- /.info -->
+                                    </figcaption>
+                                 </div>
+                            </figure>
+                        </li><!-- /.item -->
+                    }
+                </ul><!-- /.items -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+</section>
+

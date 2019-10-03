@@ -19,7 +19,7 @@ namespace TTV48Schmalkalden.Controllers
 
         private DatabaseContext context;
         private ISession session;
-
+        
         public NewsController(DatabaseContext context, IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
@@ -27,6 +27,7 @@ namespace TTV48Schmalkalden.Controllers
             session = httpContextAccessor.HttpContext.Session;
         }
 
+        [Route("news-uebersicht")]
         public IActionResult Index(int id, int category)
         {
             var list = new NewsListViewModel();
@@ -85,6 +86,7 @@ namespace TTV48Schmalkalden.Controllers
             return View(list);
         }
 
+        [Route("news-bericht")]
         public IActionResult Detail(int id = 1)
         {
             var targetNews = context.News.FirstOrDefault(x => x.Id == id);

@@ -8,6 +8,7 @@ namespace TTV48Schmalkalden.Controllers
 {
     public class PrivacyPolicyController : Controller
     {
+        [Route("datenschutzerklaerung")]
         public IActionResult Index()
         {
             return View();

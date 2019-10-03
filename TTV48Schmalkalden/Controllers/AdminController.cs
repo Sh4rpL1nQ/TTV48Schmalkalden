@@ -28,6 +28,7 @@ namespace TTV48Schmalkalden.Controllers
             this.hostingEnvironment = hostingEnvironment;
         }
 
+        [Route("admin")]
         public IActionResult Index()
         {
             if (session.GetString("user") == null) return RedirectToAction("PageNotFound", "Error");
@@ -69,6 +70,7 @@ namespace TTV48Schmalkalden.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
+        [Route("bearbeiten")]
         public IActionResult Edit(int id)
         {
             if (session.GetString("user") == null) return RedirectToAction("PageNotFound", "Error");
@@ -109,6 +111,7 @@ namespace TTV48Schmalkalden.Controllers
             return View(model);
         }
 
+        [Route("erstellen")]
         public IActionResult Create()
         {
             if (session.GetString("user") == null) return RedirectToAction("PageNotFound", "Error");

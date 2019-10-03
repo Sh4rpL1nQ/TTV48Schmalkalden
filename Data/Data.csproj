@@ -7,6 +7,9 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190926143017_Add Category.cs" />
     <Compile Remove="Migrations\20190930170920_Add Fullname to User.cs" />
+    <Compile Remove="Migrations\20191002213711_test.cs" />
+    <Compile Remove="Migrations\20191002213827_test.cs" />
+    <Compile Remove="Migrations\20191002213906_test.cs" />
   </ItemGroup>
 
   <ItemGroup>

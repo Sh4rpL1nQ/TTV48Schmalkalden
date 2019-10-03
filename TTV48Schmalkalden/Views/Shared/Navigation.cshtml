@@ -35,17 +35,30 @@
                     <!-- ============================================================= MAIN NAVIGATION ============================================================= -->
 
                     <ul class="nav navbar-nav float-right">
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" style="padding-right: 15px;">Verein <i class="icon-down-open"></i></a>
 
-                        @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
-                        {
-                            <li><a href="#home" class="scroll-to" data-anchor-offset="0">Home</a></li>
-                            <li><a href="#training" class="scroll-to" data-anchor-offset="0">Training</a></li>
-                        }
-                        else
-                        {
-                            <li><a asp-controller="Home" asp-action="Redirection" asp-route-tag="home">Home</a></li>
-                            <li><a asp-controller="Home" asp-action="Redirection" asp-route-tag="training">Training</a></li>
-                        }
+                            <ul class="dropdown-menu" style="right: auto;">
+                                @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
+                                {
+                                    <li><a href="#training" class="scroll-to" data-anchor-offset="0">Training</a></li>
+                                }
+                                else
+                                {
+                                    <li><a asp-controller="Home" asp-action="Index" asp-fragment="training">Training</a></li>
+                                }
+
+                                @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
+                                {
+                                    <li><a href="#about" class="scroll-to" data-anchor-offset="0">About</a></li>
+                                }
+                                else
+                                {
+                                    <li><a asp-controller="Home" asp-action="Index"  asp-fragment="about">About</a></li>
+                                }
+
+                            </ul><!-- /.dropdown-menu -->
+                        </li>
 
                         <li class="dropdown">
                             <a href="" class="dropdown-toggle" data-toggle="dropdown" style="padding-right: 15px;">News <i class="icon-down-open"></i></a>
@@ -61,7 +74,7 @@
                                 }
                                 else
                                 {
-                                    <li><a asp-controller="Home" asp-action="Redirection" asp-route-tag="news">Übersicht</a></li>
+                                    <li><a asp-controller="Home" asp-action="Index" asp-fragment="news">Übersicht</a></li>
                                 }
 
                                 <li><a asp-controller="News" asp-action="Index">Blog</a></li>
@@ -69,14 +82,7 @@
                             </ul><!-- /.dropdown-menu -->
                         </li><!-- /.dropdown -->
 
-                        @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
-                        {
-                            <li><a href="#about" class="scroll-to" data-anchor-offset="0">About</a></li>
-                        }
-                        else
-                        {
-                            <li><a asp-controller="Home" asp-action="Redirection" asp-route-tag="about">About</a></li>
-                        }
+                        <li><a asp-controller="Support" asp-action="Index">Sponsoren und Freunde</a></li>
 
                         <li><a asp-controller="Contact" asp-action="Index">Kontakt</a></li>
                         @if (ViewContext.RouteData.Values["controller"].ToString() == "Contact")
@@ -85,7 +91,7 @@
                         }
                         else
                         {
-                            <li><a asp-controller="Contact" asp-action="Redirection" asp-route-tag="impressum">Impressum</a></li>
+                            <li><a asp-controller="Contact" asp-action="Index">Impressum</a></li>
                         }
 
                         @if (HttpContextAccessor.HttpContext.Session.GetString("user") == null)
