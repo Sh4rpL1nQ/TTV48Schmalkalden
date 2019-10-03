@@ -70,7 +70,7 @@ namespace TTV48Schmalkalden.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
-        [Route("bearbeiten")]
+        [Route("bearbeiten/{id}")]
         public IActionResult Edit(int id)
         {
             if (session.GetString("user") == null) return RedirectToAction("PageNotFound", "Error");

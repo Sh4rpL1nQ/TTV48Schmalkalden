@@ -86,8 +86,8 @@ namespace TTV48Schmalkalden.Controllers
             return View(list);
         }
 
-        [Route("news-bericht")]
-        public IActionResult Detail(int id = 1)
+        [Route("news-bericht/{id}")]
+        public IActionResult Detail(int id)
         {
             var targetNews = context.News.FirstOrDefault(x => x.Id == id);
             var comments = context.Comments.Include(x => x.News).Where(y => y.News.Id == id).OrderByDescending(x => x.Written).ToList();
