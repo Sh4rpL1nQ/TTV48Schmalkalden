@@ -3,6 +3,7 @@
 @inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Blog";
+    ViewBag["Description"] = Model.NewsViewModel.Title + ". Neuigkeiten und Spielberichte rund um den Tischtennissport in Schmalkalden.";
 }
 
 <section id="blog-post" class="light-bg">
