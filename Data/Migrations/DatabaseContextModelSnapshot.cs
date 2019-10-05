@@ -19,6 +19,50 @@ namespace Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Data.Models.CalendarTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Begin");
+
+                    b.Property<int?>("CalendarTaskTypeId");
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime>("End");
+
+                    b.Property<bool>("IsRecurrent");
+
+                    b.Property<string>("Location");
+
+                    b.Property<string>("Subject");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CalendarTaskTypeId");
+
+                    b.ToTable("CalendarTasks");
+                });
+
+            modelBuilder.Entity("Data.Models.CalendarTaskType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ColorCode");
+
+                    b.Property<string>("HoverCode");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CalendarTaskType");
+                });
+
             modelBuilder.Entity("Data.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -160,6 +204,13 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Data.Models.CalendarTask", b =>
+                {
+                    b.HasOne("Data.Models.CalendarTaskType", "CalendarTaskType")
+                        .WithMany()
+                        .HasForeignKey("CalendarTaskTypeId");
                 });
 
             modelBuilder.Entity("Data.Models.Comment", b =>

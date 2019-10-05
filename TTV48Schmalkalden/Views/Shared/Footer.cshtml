@@ -22,8 +22,16 @@
 
             <div class="col-lg-4 col-md-6 inner">
                 <h4>Bevorstehende Events</h4>
-                <p>Schauen Sie in unseren Kalender, wann und wo das nächste Ereignis stattfindet. (Kommt noch)</p>
+                <p>Schauen Sie in unseren Kalender, wann und wo das nächste Ereignis stattfindet.</p>
 
+                @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
+                {
+                    <a href="#kalender" class="scroll-to txt-btn" data-anchor-offset="0">Termine</a>
+                }
+                else
+                {
+                    <a asp-controller="Home" asp-action="Index" asp-fragment="kalender" class="txt-btn">Termine</a>
+                }
             </div><!-- /.col -->
 
         </div><!-- /.row -->
@@ -34,7 +42,15 @@
             <p class="float-left">© 2019 Dominik Weder</p>
             <ul class="footer-menu float-right">
                 <li><a asp-controller="Contact" asp-action="Index">Kontakt</a></li>
-                <li><a asp-controller="Contact" asp-action="Index" asp-fragment="impressum">Impressum</a></li>
+                @if (ViewContext.RouteData.Values["controller"].ToString() == "Contact")
+                {
+                    <li><a href="#impressum" class="scroll-to" data-anchor-offset="0">Impressum</a></li>
+                }
+                else
+                {
+                    <li><a asp-controller="Contact" asp-action="Index" asp-fragment="impressum">Impressum</a></li>
+                }
+
                 <li><a asp-controller="PrivacyPolicy" asp-action="Index">Datenschutzerklärung</a></li>
             </ul><!-- .footer-menu -->
         </div><!-- .container -->

@@ -9,3 +9,13 @@
 .textarealong {
     height: 400px!important;
 }
+
+.romovethead {
+    display: table-cell;
+}
+
+@media (max-width:516px) {
+    .romovethead {
+        display: none;
+    }
+}

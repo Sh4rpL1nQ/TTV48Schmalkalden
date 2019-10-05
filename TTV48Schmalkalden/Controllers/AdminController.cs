@@ -255,5 +255,18 @@ namespace TTV48Schmalkalden.Controllers
             if (targetNews == null) return RedirectToAction("Create", "Admin");
             else return RedirectToAction("Edit", "Admin", new { id = targetNews.Id });
         }
+
+        [HttpPost]
+        public IActionResult OverviewImageUrl(EditNewsViewModel model)
+        {
+            var target = context.News.AsNoTracking().SingleOrDefault(x => x.Id == model.News.Id);
+            target.ImageUrl = model.News.ImageUrl;
+
+            context.News.Update(target);
+
+            context.SaveChanges();
+
+            return RedirectToAction("Edit", "Admin", new { id = target.Id });
+        }
     }
 }

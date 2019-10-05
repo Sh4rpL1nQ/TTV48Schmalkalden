@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TTV48Schmalkalden.Models;
 
 namespace TTV48Schmalkalden.Controllers
@@ -30,12 +31,19 @@ namespace TTV48Schmalkalden.Controllers
                 var model = new NewsQuickViewModel()
                 {
                     Title = entry.Title,
-                    NewsId = entry.Id
+                    NewsId = entry.Id,
+                    ImageUrl = entry.ImageUrl
                 };
                 list.News.Add(model);
             }
 
             return View(list);
+        }
+
+        public JsonResult GetEvents()
+        {
+            var events = context.CalendarTasks.Include(x => x.CalendarTaskType).ToList();
+            return new JsonResult(events);
         }
     }
 }

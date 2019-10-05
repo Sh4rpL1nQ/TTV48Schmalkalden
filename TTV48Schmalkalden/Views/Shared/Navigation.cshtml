@@ -41,6 +41,14 @@
                             <ul class="dropdown-menu" style="right: auto;">
                                 @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
                                 {
+                                    <li><a href="#kalender" class="scroll-to" data-anchor-offset="0">Termine</a></li>
+                                }
+                                else
+                                {
+                                    <li><a asp-controller="Home" asp-action="Index" asp-fragment="kalender">Termine</a></li>
+                                }
+                                @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
+                                {
                                     <li><a href="#training" class="scroll-to" data-anchor-offset="0">Training</a></li>
                                 }
                                 else
@@ -54,7 +62,7 @@
                                 }
                                 else
                                 {
-                                    <li><a asp-controller="Home" asp-action="Index"  asp-fragment="about">About</a></li>
+                                    <li><a asp-controller="Home" asp-action="Index" asp-fragment="about">About</a></li>
                                 }
 
                             </ul><!-- /.dropdown-menu -->
@@ -91,7 +99,7 @@
                         }
                         else
                         {
-                            <li><a asp-controller="Contact" asp-action="Index">Impressum</a></li>
+                            <li><a asp-controller="Contact" asp-action="Index" asp-fragment="impressum">Impressum</a></li>
                         }
 
                         @if (HttpContextAccessor.HttpContext.Session.GetString("user") == null)

@@ -29,5 +29,7 @@ namespace Data
         public DbSet<Image> Images { get; set; }
 
         public DbSet<Supporter> Supporters { get; set; }
+
+        public DbSet<CalendarTask> CalendarTasks { get; set; }
     }
 }

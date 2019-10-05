@@ -1,4 +1,6 @@
 ﻿@model TTV48Schmalkalden.Models.NewsOverviewViewModel
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Tischtennis";
     ViewData["Description"] = "Tischtennis in Schmalkalden! Wir heißen Sie recht herzlich im Tischtennisverein TTV 48 Schmalkalden willkommen &#10084. Hier finden Sie Informationen rund um uns und unsere Ballsportart. Viel Spaß beim Stöbern!";
@@ -7,187 +9,415 @@
 <!-- ============================================================= HEADER : END ============================================================= -->
 <!-- ============================================================= MAIN ============================================================= -->
 
-<main>
+@section scripts
+    {
 
-    <!-- ============================================================= SECTION – HOME ============================================================= -->
+    <script src="~/lib/moment.js/moment.min.js"></script>
+    <script src="~/lib/fullcalendar/rrule/rrule.js"></script>
+    <script src="~/lib/fullcalendar/core/main.min.js"></script>
+    <script src="~/lib/fullcalendar/interaction/main.min.js"></script>
+    <script src="~/lib/fullcalendar/daygrid/main.min.js"></script>
+    <script src="~/lib/fullcalendar/core/locales/de.js"></script>
+    <script src="https://unpkg.com/popper.js@1"></script>
+    <script src="https://unpkg.com/tippy.js@5"></script>
 
-    <section class="light-bg">
-        <div class="container inner-top inner-bottom-xs">
-            <div class="row">
+    <script>
+        $(document).ready(function () {
+            var fertig = false;
+            var events = [];
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetEvents",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        var test = moment(v.begin).format('YYYY-MM-DDTHH:mm:ss');
+                        if (v.isRecurrent) {
+                            var time = null;
+                            if (v.id == 13 || v.Id == 14) { time = "tu"; }
+                            else { time = "th"; }
+                            events.push({
+                                title: v.calendarTaskType.name,
+                                color: v.calendarTaskType.colorCode,
+                                textColor: '#ffffff',
+                                allDay: true,
+                                classNames: ['text-center'],
+                                extendedProps: {
+                                    description: v.description,
+                                    location: v.location,
+                                    startTime: test
+                                },
+                                rrule: {
+                                    freq: 'weekly',
+                                    interval: 1,
+                                    byweekday: [time],
+                                    dtstart: test,
+                                    until: '2019-11-28'
+                                }
+                            });
+                        }
+                        else {
+                            events.push({
+                                title: v.calendarTaskType.name,
+                                start: test,
+                                end: v.end,
+                                color: '#2a85dd',
+                                textColor: '#ffffff',
+                                allDay: true,
+                                classNames: ['text-center'],
+                                extendedProps: {
+                                    description: v.description,
+                                    location: v.location,
+                                    startTime: test
+                                }
+                            });
+                        }
+                    })
+                    GenerateCalender(events);
+                },
+            });
 
-                <div class="col-lg-4 inner-right-xs inner-bottom-xs">
-                    <h2 class="headline">Wir heißen Sie rechtherzlich auf unserer offiziellen Vereinswebsite willkommen</h2>
-                </div><!-- /.col -->
+            function GenerateCalender(events) {
+                var calendarDiv = document.getElementById('calendar');
+                var sess = '@HttpContextAccessor.HttpContext.Session.GetString("user")';
+                var canEdit = null;
+                if (sess == "") { canEdit = false; }
 
-                <div class="col-lg-4 inner-right-xs inner-bottom-xs">
-                    <h3>TTV 48 Schmalkalden</h3>
-                    <p>
-                        Seien Sie gegrüßt, sehr geehrte Freunde des Tischtennissports. <i class="icon-sound"><br /></i>
-                        Die vorherige Website wurde ein paar Monate auf Eis gelegt und ist deshalb nicht mehr auf dem allerneusten Stand.
-                        Hier können Sie mehr über uns erfahren.
-                    </p>
-                    <a href="#about" data-anchor-offset="0" class="btn btn-large scroll-to">Über uns</a>
-                </div><!-- /.col -->
+                else { canEdit = true; }
 
-                <div class="col-lg-4 inner-right-xs inner-bottom-xs">
-                    <h3>Freude am Tischtennis</h3>
-                    <p>
-                        Haben Sie Fans der Ballsportart und suchen eine Möglichkeit aktiv spielen zu können?
-                        Informieren Sie sich über unsere Trainingszeiten.
-                    </p>
-                    <a href="#training" data-anchor-offset="0" class="btn btn-large scroll-to">Training</a>
-                </div><!-- /.col -->
+                var calendar = new FullCalendar.Calendar(calendarDiv, {
+                    plugins: ['interaction', 'dayGrid', 'moment', 'rrule'],
+                    defaultView: 'dayGridMonth',
+                    selectable: true,
+                    locale: 'de',
+                    timezone: 'Europe/Berlin',
+                    events: events,
+                    editable: canEdit,
+                    header: {
+                        left: 'prev',
+                        center: 'title',
+                        right: 'next'
+                    },
+                    height: 600,
+                    showNonCurrentDates: false,
+                    fixedWeekCount: false,
+                    contentHeight: 'auto',
+                    eventClick: function (info) {
+                        
+                    },
+                    dateClick: function (info) {
 
-            </div><!-- /.row -->
-        </div><!-- /.container -->
-    </section>
+                    },
+                    select: function (info) {
 
-    <!-- ============================================================= SECTION – HOME : END ============================================================= -->
-    <!-- ============================================================= SECTION – TRAINING ============================================================= -->
+                    },
+                    eventMouseEnter: function (info) {
+                        info.el.style.cursor = "pointer";
+                        info.el.style.backgroundColor = "#2a4fdd";
+                    },
+                    eventMouseLeave: function (info) {
+                        info.el.style.cursor = "default";
+                        info.el.style.backgroundColor = "#2a85dd";
+                    },
+                    eventRender: function (info) {
+                        fertig = true;
+                        var x = window.matchMedia("(max-width: 767px)");
+                        DetectContact(x);
+                        $('.fc-day-top').addClass('text-center');
+                    },
+                    eventPositioned: function (info) {
+                        tippy('.fc-content', {
+                            content: '<div class="card" style="width: 18rem;"><div class="card-body"><h5 id="event-title" class="card-title">Event: ' + info.event.title + '</h5>' +
+                                '<h6 id="event-time" class="card-subtitle mb-2 text-muted">' + formatDate(info.event.extendedProps.startTime) + ' um ' + formatTime(info.event.extendedProps.startTime) + '</h6>' + '<h6 id="event-location" class="card-subtitle mb-2 text-muted">in ' + info.event.extendedProps.location + '</h6>' +
+                                '<p id="event-body" class="card-text" style="color:black;">' + info.event.extendedProps.description + '</p></div></div> ',
+                            trigger: 'click'
+                        });
 
-    <section id="about" class="light-bg img-bg-softer" style="background-image: url(../assets/images/art/pattern-background01.jpg);">
-        <div class="container inner">
+                        $('.fc-day-grid').css("overflow", "hidden");
+                        $('.fc-body').css("overflow", "hidden");
+                        $('.fc-scroller').css("overflow", "hidden");
+                    }
+                });
+                calendar.render();
+            }
 
-            <div class="row">
-                <div class="col-lg-8 col-md-9 mx-auto text-center">
-                    <header>
-                        <h1>Über uns</h1>
-                    </header>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
+            function formatDate(date) {
+                var monthNames = [
+                    "Januar", "Februar", "März",
+                    "April", "Mai", "Juni", "Juli",
+                    "August", "September", "Oktober",
+                    "November", "Dezember"
+                ];
+                date = new Date(date);
+                var day = date.getDate();
+                var monthIndex = date.getMonth();
+                var year = date.getFullYear();
 
-            <div class="row">
-                <div class="col-lg-8 col-md-9 mx-auto text-center">
-                    <div id="owl-testimonials" class="owl-carousel owl-outer-nav owl-ui-md">
+                return day + ' ' + monthNames[monthIndex] + ' ' + year;
+            }
 
-                        <div class="item">
-                            <p>Dieser Teil befindet sich noch in Arbeit</p>
-                        </div><!-- /.item -->
+            function formatTime(date) {
+                var d = new Date(date);
+                var h = d.getHours();
+                var m = d.getMinutes();
+                if (m < 10)
+                    return h + ':' + m + '0 Uhr';
+                else
+                    return h + ':' + m + ' Uhr';
+            }
 
-                        <div class="item">
-                            <p>Dieser Teil befindet sich noch in Arbeit</p>
-                        </div><!-- /.item -->
+            var x = window.matchMedia("(max-width: 767px)");
+            DetectContact(x);
+            x.addListener(DetectContact);
 
-                        <div class="item">
-                            <p>Dieser Teil befindet sich noch in Arbeit</p>
-                        </div><!-- /.item -->
+            function DetectContact(x) {
+                if (fertig) {
+                    if (x.matches) {
+                        $('.fc-center > h2').css('font-size', '20px');
+                    }
+                    else {
+                        $('.fc-center > h2').css('font-size', '26px');
+                    }
+                }
+            }
+        })
+    </script>
+}
 
-                    </div><!-- /.owl-carousel -->
-                </div><!-- /.col -->
-            </div><!-- /.row -->
+    <main>
+        <!-- ============================================================= SECTION – HOME ============================================================= -->
+        <section class="light-bg">
+            <div class="container inner-top inner-bottom-xs">
+                <div class="row">
 
-        </div><!-- /.container -->
-    </section>
+                    <div class="col-lg-4 inner-right-xs inner-bottom-xs">
+                        <h2 class="headline">Wir heißen Sie rechtherzlich auf unserer offiziellen Vereinswebsite willkommen</h2>
+                    </div><!-- /.col -->
 
-    <section id="training">
-        <div class="container inner-top">
-
-            <div class="row">
-                <div class="col-lg-8 col-md-9 mx-auto text-center">
-                    <header>
-                        <h1>Wann trainieren wir?</h1>
+                    <div class="col-lg-4 inner-right-xs inner-bottom-xs">
+                        <h3>TTV 48 Schmalkalden</h3>
                         <p>
-                            Trainiert wird zweimal die Woche. Dabei spielen die Kinder und Jugendlichen zeitversetzt zu den Erwachsenen,
-                            da die steigende Anzahl an Nachwuchsspielern mehr Platz fordert.
+                            Seien Sie gegrüßt, sehr geehrte Freunde des Tischtennissports. <i class="icon-sound"><br /></i>
+                            Die vorherige Website wurde ein paar Monate auf Eis gelegt und ist deshalb nicht mehr auf dem allerneusten Stand.
+                            Hier können Sie mehr über uns erfahren.
                         </p>
-                    </header>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
+                        <a href="#about" data-anchor-offset="0" class="btn btn-large scroll-to">Über uns</a>
+                    </div><!-- /.col -->
 
-            <div class="row inner-top-sm">
+                    <div class="col-lg-4 inner-right-xs inner-bottom-xs">
+                        <h3>Freude am Tischtennis</h3>
+                        <p>
+                            Haben Sie Fans der Ballsportart und suchen eine Möglichkeit aktiv spielen zu können?
+                            Informieren Sie sich über unsere Trainingszeiten.
+                        </p>
+                        <a href="#training" data-anchor-offset="0" class="btn btn-large scroll-to">Training</a>
+                    </div><!-- /.col -->
 
-                <div class="col-lg-3 inner-bottom-sm">
-                    <h2>Kindertraining</h2>
-                    <ul class="circled">
-                        <li>Dienstag von 17:30 Uhr bis 19:30 Uhr</li>
-                        <li>Donnerstag von 17:30 Uhr bis 18:30 Uhr</li>
-                    </ul>
-                    <p class="text-small"></p>
-                </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section>
 
-                <div class="col-lg-3 inner-bottom-sm">
-                    <h2>Erwachsenentraining</h2>
-                    <ul class="circled">
-                        <li>Dienstag von 19:30 Uhr bis zum Umfallen</li>
-                        <li>Donnerstag von 18:30 Uhr bis zum Umfallen</li>
-                    </ul>
-                    <p class="text-small"></p>
-                </div><!-- /.col -->
+        <section id="kalender" style="overflow:hidden!important;">
+            <div class="container inner-top inner-bottom">
 
-                <div class="col-lg-6 inner-left-xs">
-                    <figure><img src="~/assets/images/art/location.png" alt="Trainingsort des Schmalkalder Vereins" title="Sporthalle am Walperloh"></figure>
-                </div><!-- /.col -->
+                <div class="row">
+                    <div class="col-lg-8 col-md-9 mx-auto text-center">
+                        <header>
+                            <h1>Was steht so an?</h1>
+                            <p>
+                                In diesem Kalender stehen sowohl die Spieltermine als auch zukünftige Turniere oder Events.
+                            </p>
+                        </header>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
 
-            </div><!-- /.row -->
+                <div class="row inner-top-xs">
 
-        </div><!-- /.container -->
-    </section>
+                    <div id="calendar"></div>
+                </div><!-- /.row -->
 
-    <!-- ============================================================= SECTION – TRAINING : END ============================================================= -->
-    <!-- ============================================================= SECTION – NEWS ============================================================= -->
+            </div><!-- /.container -->
+        </section>
 
-    <section id="news" class="light-bg">
-        <div class="container inner-top-md inner-bottom-md">
-            <div class="row">
-                <div class="col-md-12">
-                    <div id="accordion" class="panel-group">
-                        <div class="panel panel-default">
+        <!-- ============================================================= SECTION – HOME : END ============================================================= -->
+        <!-- ============================================================= SECTION – TRAINING ============================================================= -->
 
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a class="panel-toggle" href="#content" data-toggle="collapse">
-                                        <span>Neueste Informationen</span>
-                                    </a>
-                                </h4>
-                            </div><!-- /.panel-heading -->
+        <section id="about" class="light-bg img-bg-softer" style="background-image: url(../assets/images/art/pattern-background01.jpg);">
+            <div class="container inner">
 
-                            <div id="content" class="panel-collapse collapse show" data-parent="#accordion">
-                                <div class="panel-body">
-                                    <div id="owl-popular-posts" class="owl-carousel owl-item-gap-sm">
-                                        @foreach (var news in Model.News)
-                                        {
-                                            <div class="item">
-                                                <a asp-controller="News" asp-action="Detail" asp-route-id="@news.NewsId">
-                                                    <figure class="crop">
-                                                        <figcaption class="text-overlay">
+                <div class="row">
+                    <div class="col-lg-8 col-md-9 mx-auto text-center">
+                        <header>
+                            <h1>Über uns</h1>
+                        </header>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+
+                <div class="row">
+                    <div class="col-lg-8 col-md-9 mx-auto text-center">
+                        <div id="owl-testimonials" class="owl-carousel owl-outer-nav owl-ui-md">
+
+                            <div class="item">
+                                <p>Dieser Teil befindet sich noch in Arbeit</p>
+                            </div><!-- /.item -->
+
+                            <div class="item">
+                                <p>Dieser Teil befindet sich noch in Arbeit</p>
+                            </div><!-- /.item -->
+
+                            <div class="item">
+                                <p>Dieser Teil befindet sich noch in Arbeit</p>
+                            </div><!-- /.item -->
+
+                        </div><!-- /.owl-carousel -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+
+            </div><!-- /.container -->
+        </section>
+
+        <section id="training">
+            <div class="container inner-top">
+
+                <div class="row">
+                    <div class="col-lg-8 col-md-9 mx-auto text-center">
+                        <header>
+                            <h1>Wann trainieren wir?</h1>
+                            <p>
+                                Trainiert wird zweimal die Woche. Dabei spielen die Kinder und Jugendlichen zeitversetzt zu den Erwachsenen,
+                                da die steigende Anzahl an Nachwuchsspielern mehr Platz fordert.
+                            </p>
+                        </header>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+
+                <div class="row inner-top-sm">
+
+                    <div class="col-lg-3 inner-bottom-sm">
+                        <h2>Kindertraining</h2>
+                        <ul class="circled">
+                            <li>Dienstag von 17:30 Uhr bis 19:30 Uhr</li>
+                            <li>Donnerstag von 17:30 Uhr bis 18:30 Uhr</li>
+                        </ul>
+                        <p class="text-small"></p>
+                    </div><!-- /.col -->
+
+                    <div class="col-lg-3 inner-bottom-sm">
+                        <h2>Erwachsenentraining</h2>
+                        <ul class="circled">
+                            <li>Dienstag von 19:30 Uhr bis zum Umfallen</li>
+                            <li>Donnerstag von 18:30 Uhr bis zum Umfallen</li>
+                        </ul>
+                        <p class="text-small"></p>
+                    </div><!-- /.col -->
+
+                    <div class="col-lg-6 inner-left-xs">
+                        <figure><img src="~/assets/images/art/location.png" alt="Trainingsort des Schmalkalder Vereins" title="Sporthalle am Walperloh"></figure>
+                    </div><!-- /.col -->
+
+                </div><!-- /.row -->
+
+            </div><!-- /.container -->
+        </section>
+
+        <!-- ============================================================= SECTION – TRAINING : END ============================================================= -->
+        <!-- ============================================================= SECTION – NEWS ============================================================= -->
+
+        <section id="news" class="light-bg">
+            <div class="container inner-top-md inner-bottom-md">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="accordion" class="panel-group">
+                            <div class="panel panel-default">
+
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="panel-toggle" href="#content" data-toggle="collapse">
+                                            <span>Neueste Informationen</span>
+                                        </a>
+                                    </h4>
+                                </div><!-- /.panel-heading -->
+
+                                <div id="content" class="panel-collapse collapse show" data-parent="#accordion">
+                                    <div class="panel-body">
+                                        <div id="owl-popular-posts" class="owl-carousel owl-item-gap-sm">
+                                            @foreach (var news in Model.News)
+                                            {
+                                                <div class="item">
+                                                    <a asp-controller="News" asp-action="Detail" asp-route-id="@news.NewsId">
+                                                        <figure class="crop">
+                                                            <figcaption class="text-overlay">
+                                                                <div class="info">
+                                                                    <h4 style="hyphens: auto;">@news.Title</h4>
+                                                                </div><!-- /.info -->
+                                                            </figcaption>
+                                                            @if (!string.IsNullOrEmpty(news.ImageUrl))
+                                                            {
+                                                                <img src="@news.ImageUrl" alt="Bild der Neuigkeit">
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="~/assets/images/placeholder-news.svg" alt="Platzhalter für Neuigkeiten ohne Bild">
+                                                            }
+
+                                                        </figure>
+                                                        <figcaption class="bordered no-top-border addon">
                                                             <div class="info">
-                                                                <h4 style="hyphens: auto;">@news.Title</h4>
+                                                                <h4>@news.Title</h4>
                                                             </div><!-- /.info -->
                                                         </figcaption>
-                                                        <img src="~/assets/images/placeholder-news.svg" alt="Platzhalter für Neuigkeiten ohne Bild">
-                                                    </figure>
-                                                    <figcaption class="bordered no-top-border addon">
-                                                        <div class="info">
-                                                            <h4>@news.Title</h4>
-                                                        </div><!-- /.info -->
-                                                    </figcaption>
-                                                </a>
-                                            </div>
-                                        }
-                                    </div><!-- /.owl-carousel -->
-                                </div><!-- /.panel-body -->
-                            </div><!-- /.content -->
+                                                    </a>
+                                                </div>
+                                            }
+                                        </div><!-- /.owl-carousel -->
+                                    </div><!-- /.panel-body -->
+                                </div><!-- /.content -->
 
-                        </div><!-- /.panel -->
-                    </div><!-- /.accordion -->
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container -->
-    </section>
+                            </div><!-- /.panel -->
+                        </div><!-- /.accordion -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section>
 
-    <!-- ============================================================= SECTION – NEWS : END ============================================================= -->
-    <!-- ============================================================= SECTION – REASONS ============================================================= -->
-    <!-- ============================================================= SECTION – REASONS : END ============================================================= -->
-    <!-- ============================================================= SECTION – GET IN TOUCH ============================================================= -->
-    <!-- ============================================================= SECTION – GET IN TOUCH : END ============================================================= -->
-    <!-- ============================================================= MODALS ============================================================= -->
-    <!-- ============================================================= MODAL PRODUCT01 ============================================================= -->
-    <!-- ============================================================= MODAL PRODUCT01 : END ============================================================= -->
-    <!-- ============================================================= MODAL CONTACT01 ============================================================= -->
-    <!-- ============================================================= MODAL CONTACT01 : END ============================================================= -->
-    <!-- ============================================================= MODALS : END ============================================================= -->
+        <!-- ============================================================= SECTION – NEWS : END ============================================================= -->
+        <!-- ============================================================= SECTION – REASONS ============================================================= -->
+        <!-- ============================================================= SECTION – REASONS : END ============================================================= -->
+        <!-- ============================================================= SECTION – GET IN TOUCH ============================================================= -->
+        <!-- ============================================================= SECTION – GET IN TOUCH : END ============================================================= -->
+        <!-- ============================================================= MODALS ============================================================= -->
+        <!-- ============================================================= MODAL PRODUCT01 ============================================================= -->
+        <!-- ============================================================= MODAL PRODUCT01 : END ============================================================= -->
+        <!-- ============================================================= MODAL CONTACT01 ============================================================= -->
+        <!-- ============================================================= MODAL CONTACT01 : END ============================================================= -->
+        <!-- ============================================================= MODALS : END ============================================================= -->
+        <div class="modal fade" id="modal-event" tabindex="-1" role="dialog" aria-labelledby="modal-eventl" aria-hidden="true">
+            <div class="modal-dialog modal-xs">
+                <div class="modal-content">
 
-</main>
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-event-title"></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="icon-cancel-1"></i></span></button>
+                    </div><!-- /.modal-header -->
+                    <!-- ============================================================= MODAL CONTENT ============================================================= -->
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            @Html.Hidden("id", "", new { @class = "hiddenid" })
+                        </div>
+                        <div class="container inner-xs text-center">
+                            <h2 id="modal-event-event-title"></h2>
+                            <p id="modal-event-event-body"></p>
+                            <p id="modal-event-event-location"></p>
+                            <p id="modal-event-event-time"></p>
+                        </div><!-- /.container -->
+
+                    </div><!-- /.modal-body -->
+                    <!-- ============================================================= MODAL CONTENT : END ============================================================= -->
+
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+    </main>
 
 <!-- ============================================================= MAIN : END ============================================================= -->
 <!-- ============================================================= FOOTER ============================================================= -->

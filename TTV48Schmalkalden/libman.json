@@ -5,6 +5,54 @@
     {
       "library": "jquery-validation-unobtrusive@3.2.11",
       "destination": "wwwroot/assets/js/jquery-validation-unobtrusive/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "fullcalendar@4.2.0",
+      "destination": "wwwroot/lib/fullcalendar/",
+      "files": [
+        "core/main.min.js",
+        "bootstrap/main.css",
+        "bootstrap/main.js",
+        "bootstrap/main.min.css",
+        "bootstrap/main.min.js",
+        "core/locales-all.js",
+        "core/locales-all.min.js",
+        "core/main.css",
+        "core/main.js",
+        "core/main.min.css",        
+        "core/locales/de.js",        
+        "daygrid/main.css",
+        "daygrid/main.js",
+        "daygrid/main.min.css",
+        "daygrid/main.min.js",
+        "google-calendar/main.js",
+        "google-calendar/main.min.js",
+        "interaction/main.js",
+        "interaction/main.min.js",
+        "list/main.css",
+        "list/main.js",
+        "list/main.min.css",
+        "list/main.min.js",
+        "luxon/main.js",
+        "luxon/main.min.js",
+        "moment/main.js",
+        "moment/main.min.js",
+        "moment-timezone/main.js",
+        "moment-timezone/main.min.js",
+        "rrule/main.js",
+        "rrule/main.min.js",
+        "timegrid/main.css",
+        "timegrid/main.js",
+        "timegrid/main.min.css",
+        "timegrid/main.min.js"
+      ]
     }
-  ]
+  ,
+{
+  "provider": "cdnjs",
+  "library": "moment.js@2.24.0",
+  "destination": "wwwroot/lib/moment.js/"
+}
+]
 }

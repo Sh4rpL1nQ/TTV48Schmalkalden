@@ -50,7 +50,7 @@ $(document).ready(function () {
         $(this).next('.custom-file-label').html(fileName);
     });
 
-    var x = window.matchMedia("(max-width: 991px)")
+    var x = window.matchMedia("(max-width: 991px)");
     DetectContact(x);
     x.addListener(DetectContact);
 

@@ -8,6 +8,9 @@
         <div class="row text-center inner-bottom-xs">
             <h2 style="width:100%;">Bearbeitung</h2>
         </div>
+        <div class="row text-center inner-bottom-xs">
+            <p style="width:100%;">Wenn Sie sich auf einem Smartphone befinden, haben Sie nur eingeschränkte Möglichkeiten Bilder der News zuzuordnen. Wechseln Sie, wenn Sie Bilder einfügen wollen auf ein Tablet oder auf einen Desktop.<br />Das hochladen von Bildern ist weiterhin problemlos möglich.</p>
+        </div>
         <section id="" class="light-bg">
             <div class="container">
                 <div class="row">
@@ -69,8 +72,8 @@
                                             <thead>
                                                 <tr>
                                                     <th class="" style="font-size:14px;width:15%;">Titel</th>
-                                                    <th style="font-size:14px;width:75%;">Bildunterschrift</th>
-                                                    <th style="font-size:14px;width:10%;">Bild</th>
+                                                    <th class="romovethead" style="font-size:14px;width:75%;">Bildunterschrift</th>
+                                                    <th class="romovethead" style="font-size:14px;width:10%;">Bild</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -80,10 +83,10 @@
                                                         <td class="" style="vertical-align:middle;">
                                                             <a style="font-size:14px;display:inline;">&lt;img src=&quot;@image.ImageUrl&quot;&gt;</a>
                                                         </td>
-                                                        <td class="" style="vertical-align:middle;">
+                                                        <td class="romovethead" style="vertical-align:middle;">
                                                             <a style="font-size:14px;display:inline;">&lt;figcaption&gt;@image.ImageDescription&lt;/figcaption&gt;</a>
                                                         </td>
-                                                        <td class="" style="vertical-align:middle;">
+                                                        <td class="romovethead" style="vertical-align:middle;">
                                                             <img src="@image.ImageUrl" style="width:100%;height:auto;display:inline;" />
                                                         </td>
                                                     </tr>
@@ -99,6 +102,62 @@
                 </div><!-- /.row -->
             </div><!-- /.container -->
         </section>
+
+        <section id="" class="light-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="" class="panel-group">
+                            <div class="panel panel-default">
+
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="panel-toggle closedAtBeginning" href="#content3" data-toggle="collapse">
+                                            <span>Wählen Sie das Bild aus welches in der Übersicht angezeigt werden soll.</span>
+                                        </a>
+                                    </h4>
+                                </div><!-- /.panel-heading -->
+
+                                <div id="content3" class="panel-collapse collapse show">
+                                    <div class="panel-body">
+                                        <form id="radioSubmitter" asp-action="OverviewImageUrl" method="post">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="font-size:14px;width:10%;">Bild</th>
+                                                        <th style="font-size:14px;width:90%;">Auswahl</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var image in Model.Images)
+                                                    {
+                                                        <tr>
+                                                            <td style="vertical-align:middle;">
+                                                                <img src="@image.ImageUrl" style="width:100%;height:auto;display:inline;" />
+                                                            </td>
+
+                                                            <td style="vertical-align:middle;">
+
+                                                                @Html.RadioButtonFor(x => x.News.ImageUrl, image.ImageUrl)
+                                                            </td>
+
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                            @Html.HiddenFor(x => x.News.Id)
+                                            <button type="submit" class="btn btn-submit">GO</button>
+                                        </form>
+                                    </div><!-- /.panel-body -->
+                                </div><!-- /.content -->
+
+                            </div><!-- /.panel -->
+                        </div><!-- /.accordion -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section>
+
         <div class="row">
             <div class="col-lg-7">
                 <div class="">
