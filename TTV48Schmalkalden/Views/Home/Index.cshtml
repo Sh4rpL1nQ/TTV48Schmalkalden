@@ -125,11 +125,24 @@
                         $('.fc-day-top').addClass('text-center');
                     },
                     eventPositioned: function (info) {
-                        tippy('.fc-content', {
+                        tippy(info.el.firstChild, {
                             content: '<div class="card" style="width: 18rem;"><div class="card-body"><h5 id="event-title" class="card-title">Event: ' + info.event.title + '</h5>' +
                                 '<h6 id="event-time" class="card-subtitle mb-2 text-muted">' + formatDate(info.event.extendedProps.startTime) + ' um ' + formatTime(info.event.extendedProps.startTime) + '</h6>' + '<h6 id="event-location" class="card-subtitle mb-2 text-muted">in ' + info.event.extendedProps.location + '</h6>' +
                                 '<p id="event-body" class="card-text" style="color:black;">' + info.event.extendedProps.description + '</p></div></div> ',
-                            trigger: 'click'
+                            trigger: 'click',
+                            animation: 'fade',
+                            onMount(instance) {
+                                const { tooltip } = instance.popperChildren;
+                                requestAnimationFrame(() => {
+                                    tooltip.classList.add('animated');
+                                    tooltip.classList.add('wobble');
+                                });
+                            },
+                            onHidden(instance) {
+                                const { tooltip } = instance.popperChildren;
+                                tooltip.classList.remove('animated');
+                                tooltip.classList.remove('wobble');
+                            }
                         });
 
                         $('.fc-day-grid').css("overflow", "hidden");
