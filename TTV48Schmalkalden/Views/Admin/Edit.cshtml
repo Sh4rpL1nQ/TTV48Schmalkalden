@@ -72,8 +72,8 @@
                                             <thead>
                                                 <tr>
                                                     <th class="" style="font-size:14px;width:15%;">Titel</th>
-                                                    <th class="romovethead" style="font-size:14px;width:75%;">Bildunterschrift</th>
-                                                    <th class="romovethead" style="font-size:14px;width:10%;">Bild</th>
+                                                    <th class="removethead" style="font-size:14px;width:75%;">Bildunterschrift</th>
+                                                    <th class="removethead" style="font-size:14px;width:10%;">Bild</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -83,10 +83,10 @@
                                                         <td class="" style="vertical-align:middle;">
                                                             <a style="font-size:14px;display:inline;">&lt;img src=&quot;@image.ImageUrl&quot;&gt;</a>
                                                         </td>
-                                                        <td class="romovethead" style="vertical-align:middle;">
+                                                        <td class="removethead" style="vertical-align:middle;">
                                                             <a style="font-size:14px;display:inline;">&lt;figcaption&gt;@image.ImageDescription&lt;/figcaption&gt;</a>
                                                         </td>
-                                                        <td class="romovethead" style="vertical-align:middle;">
+                                                        <td class="removethead" style="vertical-align:middle;">
                                                             <img src="@image.ImageUrl" style="width:100%;height:auto;display:inline;" />
                                                         </td>
                                                     </tr>
@@ -258,3 +258,22 @@
         </div><!-- /.row -->
     </div><!-- /.container -->
 </section>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            var x = window.matchMedia("(max-width: 516px)");
+            DetectContact(x);
+            x.addListener(DetectContact);
+
+            function DetectContact(x) {
+                if (x.matches) {
+                    $('.removethead').css("display", "none");
+                }
+                else {
+                    $('.removethead').css("display", "table-cell");
+                }
+            }
+        });
+    </script>
+}

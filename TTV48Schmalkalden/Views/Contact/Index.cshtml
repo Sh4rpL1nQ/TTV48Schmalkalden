@@ -243,3 +243,29 @@
 
 
 </main>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+    $('.custom-file-input').on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).next('.custom-file-label').html(fileName);
+    });
+
+    var x = window.matchMedia("(max-width: 991px)");
+    DetectContact(x);
+    x.addListener(DetectContact);
+
+    function DetectContact(x) {
+        if (x.matches) {
+            $('.onecontact').removeClass('col-md-4');
+            $('.onecontact').addClass('col-md-6');
+        }
+        else {
+            $('.onecontact').removeClass('col-md-6');
+            $('.onecontact').addClass('col-md-4');
+        }   
+    }
+});
+    </script>
+}
