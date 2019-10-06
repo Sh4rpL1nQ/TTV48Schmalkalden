@@ -20,8 +20,8 @@
         "core/locales-all.min.js",
         "core/main.css",
         "core/main.js",
-        "core/main.min.css",        
-        "core/locales/de.js",        
+        "core/main.min.css",
+        "core/locales/de.js",
         "daygrid/main.css",
         "daygrid/main.js",
         "daygrid/main.min.css",
@@ -47,12 +47,20 @@
         "timegrid/main.min.css",
         "timegrid/main.min.js"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "moment.js@2.24.0",
+      "destination": "wwwroot/lib/moment.js/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "tippy.js@3.4.1",
+      "destination": "wwwroot/lib/tippy.js/",
+      "files": [
+        "tippy.min.js",
+        "tippy.css"
+      ]
     }
-  ,
-{
-  "provider": "cdnjs",
-  "library": "moment.js@2.24.0",
-  "destination": "wwwroot/lib/moment.js/"
-}
-]
+  ]
 }

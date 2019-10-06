@@ -18,7 +18,9 @@ namespace Data.Models
 
         public DateTime End { get; set; }
 
-        public bool IsRecurrent { get; set; }
+        public int? RecurrentWeekDay { get; set; }
+
+        public bool IsAllDay { get; set; }
 
         public CalendarTaskType CalendarTaskType { get; set; }
     }

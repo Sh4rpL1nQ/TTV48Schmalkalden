@@ -13,67 +13,58 @@
     {
 
     <script src="~/lib/moment.js/moment.min.js"></script>
-    <script src="~/lib/fullcalendar/rrule/rrule.js"></script>
     <script src="~/lib/fullcalendar/core/main.min.js"></script>
     <script src="~/lib/fullcalendar/interaction/main.min.js"></script>
     <script src="~/lib/fullcalendar/daygrid/main.min.js"></script>
     <script src="~/lib/fullcalendar/core/locales/de.js"></script>
-    <script src="https://unpkg.com/popper.js@1"></script>
-    <script src="https://unpkg.com/tippy.js@5"></script>
+    <script src="~/lib/tippy.js/tippy.min.js"></script>
 
     <script>
         $(document).ready(function () {
             var fertig = false;
             var events = [];
+
             $.ajax({
                 type: "GET",
                 url: "/Home/GetEvents",
                 success: function (data) {
-                    $.each(data, function (i, v) {
-                        var test = moment(v.begin).format('YYYY-MM-DDTHH:mm:ss');
-                        if (v.isRecurrent) {
-                            var time = null;
-                            if (v.id == 13 || v.Id == 14) { time = "tu"; }
-                            else { time = "th"; }
-                            events.push({
-                                title: v.calendarTaskType.name,
-                                color: v.calendarTaskType.colorCode,
-                                textColor: '#ffffff',
-                                allDay: true,
-                                classNames: ['text-center'],
-                                extendedProps: {
-                                    description: v.description,
-                                    location: v.location,
-                                    startTime: test
-                                },
-                                rrule: {
-                                    freq: 'weekly',
-                                    interval: 1,
-                                    byweekday: [time],
-                                    dtstart: test,
-                                    until: '2019-11-28'
-                                }
-                            });
+                    $.each(data, function (i, v) {                        
+                        var beginning = moment(v.begin).format('YYYY-MM-DDTHH:mm:ss');
+                        var ending = moment(v.end).format('YYYY-MM-DDTHH:mm:ss');
+
+                        var event =
+                        {
+                            title: v.calendarTaskType.name,
+                            color: v.calendarTaskType.colorCode,
+                            textColor: '#ffffff',
+                            classNames: ['text-center'],
+                            allDay: v.isAllDay,
+                            extendedProps: {
+                                description: v.description,
+                                location: v.location,
+                                startTime: beginning,
+                                endTime: ending,
+                                hover: v.calendarTaskType.hoverCode,
+                                code: v.calendarTaskType.colorCode
+                            }
+                        };
+
+                        if (v.recurrentWeekDay != null) {
+                            event.daysOfWeek = [v.recurrentWeekDay];
+                            event.startRecur = '2019-09-01';
+                            event.endRecur = '2019-11-30';
+                            event.startTime = moment(beginning).format('HH:mm');
+                            event.endTime = moment(ending).format('HH:mm');
                         }
                         else {
-                            events.push({
-                                title: v.calendarTaskType.name,
-                                start: test,
-                                end: v.end,
-                                color: '#2a85dd',
-                                textColor: '#ffffff',
-                                allDay: true,
-                                classNames: ['text-center'],
-                                extendedProps: {
-                                    description: v.description,
-                                    location: v.location,
-                                    startTime: test
-                                }
-                            });
+                            event.start = beginning;
+                            event.end = ending;
                         }
+
+                        events.push(event);
                     })
                     GenerateCalender(events);
-                },
+                }
             });
 
             function GenerateCalender(events) {
@@ -85,64 +76,46 @@
                 else { canEdit = true; }
 
                 var calendar = new FullCalendar.Calendar(calendarDiv, {
-                    plugins: ['interaction', 'dayGrid', 'moment', 'rrule'],
+                    plugins: ['interaction', 'dayGrid'],
                     defaultView: 'dayGridMonth',
                     selectable: true,
                     locale: 'de',
                     timezone: 'Europe/Berlin',
                     events: events,
                     editable: canEdit,
-                    header: {
-                        left: 'prev',
-                        center: 'title',
-                        right: 'next'
-                    },
+                    header: { left: 'prev', center: 'title', right: 'next' },
                     height: 600,
                     showNonCurrentDates: false,
                     fixedWeekCount: false,
                     contentHeight: 'auto',
-                    eventClick: function (info) {
-                        
-                    },
+                    eventClick: function (info) {},
                     dateClick: function (info) {
-
                     },
-                    select: function (info) {
-
-                    },
+                    select: function (info) { },
                     eventMouseEnter: function (info) {
                         info.el.style.cursor = "pointer";
-                        info.el.style.backgroundColor = "#2a4fdd";
+                        info.el.style.backgroundColor = info.event.extendedProps.hover;
                     },
                     eventMouseLeave: function (info) {
                         info.el.style.cursor = "default";
-                        info.el.style.backgroundColor = "#2a85dd";
+                        info.el.style.backgroundColor = info.event.extendedProps.code;
                     },
                     eventRender: function (info) {
                         fertig = true;
                         var x = window.matchMedia("(max-width: 767px)");
                         DetectContact(x);
-                        $('.fc-day-top').addClass('text-center');
+                        $('.fc-day-top').addClass('text-center');                        
                     },
                     eventPositioned: function (info) {
                         tippy(info.el.firstChild, {
-                            content: '<div class="card" style="width: 18rem;"><div class="card-body"><h5 id="event-title" class="card-title">Event: ' + info.event.title + '</h5>' +
-                                '<h6 id="event-time" class="card-subtitle mb-2 text-muted">' + formatDate(info.event.extendedProps.startTime) + ' um ' + formatTime(info.event.extendedProps.startTime) + '</h6>' + '<h6 id="event-location" class="card-subtitle mb-2 text-muted">in ' + info.event.extendedProps.location + '</h6>' +
-                                '<p id="event-body" class="card-text" style="color:black;">' + info.event.extendedProps.description + '</p></div></div> ',
+                            content: '<div class="card" style="width: 18rem;"><div class="card-body"><h5 id="event-title" class="card-title">Event: ' +
+                                info.event.title + '</h5><h6 id="event-time" class="card-subtitle mb-2 text-muted">' +
+                                formatDate(info.event.extendedProps.startTime) + ' um ' + formatTime(info.event.extendedProps.startTime) +
+                                '</h6><h6 id="event-location" class="card-subtitle mb-2 text-muted">in ' + info.event.extendedProps.location +
+                                '</h6><p id="event-body" class="card-text" style="color:black;">' + info.event.extendedProps.description + '</p></div></div> ',
                             trigger: 'click',
-                            animation: 'fade',
-                            onMount(instance) {
-                                const { tooltip } = instance.popperChildren;
-                                requestAnimationFrame(() => {
-                                    tooltip.classList.add('animated');
-                                    tooltip.classList.add('wobble');
-                                });
-                            },
-                            onHidden(instance) {
-                                const { tooltip } = instance.popperChildren;
-                                tooltip.classList.remove('animated');
-                                tooltip.classList.remove('wobble');
-                            }
+                            animation: 'scale',
+                            inertia: 'subtle'
                         });
 
                         $('.fc-day-grid').css("overflow", "hidden");
@@ -154,28 +127,17 @@
             }
 
             function formatDate(date) {
-                var monthNames = [
-                    "Januar", "Februar", "März",
-                    "April", "Mai", "Juni", "Juli",
-                    "August", "September", "Oktober",
-                    "November", "Dezember"
-                ];
-                date = new Date(date);
-                var day = date.getDate();
-                var monthIndex = date.getMonth();
-                var year = date.getFullYear();
-
-                return day + ' ' + monthNames[monthIndex] + ' ' + year;
+                var monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+                var date = new Date(date);
+                return date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear();
             }
 
             function formatTime(date) {
-                var d = new Date(date);
-                var h = d.getHours();
-                var m = d.getMinutes();
-                if (m < 10)
-                    return h + ':' + m + '0 Uhr';
+                var date = new Date(date);
+                if (date.getMinutes() < 10)
+                    return date.getHours() + ':' + date.getMinutes() + '0 Uhr';
                 else
-                    return h + ':' + m + ' Uhr';
+                    return date.getHours() + ':' + date.getMinutes() + ' Uhr';
             }
 
             var x = window.matchMedia("(max-width: 767px)");
@@ -184,12 +146,8 @@
 
             function DetectContact(x) {
                 if (fertig) {
-                    if (x.matches) {
-                        $('.fc-center > h2').css('font-size', '20px');
-                    }
-                    else {
-                        $('.fc-center > h2').css('font-size', '26px');
-                    }
+                    if (x.matches) { $('.fc-center > h2').css('font-size', '20px');}
+                    else {$('.fc-center > h2').css('font-size', '26px');}
                 }
             }
         })

@@ -1,6 +1,6 @@
 ﻿@model TTV48Schmalkalden.Models.EditNewsViewModel
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Bearbeiten";
 }
 
 <section id="blog-post" class="light-bg">
@@ -162,16 +162,16 @@
             <div class="col-lg-7">
                 <div class="">
                     <div class="comment-form-wrapper">
-                        <form id="editNewsForm" class="forms" asp-action="Edit" method="post">
+                        @using (Html.BeginForm("EditNews", "Admin", FormMethod.Post, new { @id = "editNewsForm", @class = "forms" })) { 
                             <div class="row">
                                 <div class="col-md-12">
-                                    @Html.TextBoxFor(model => model.News.Title, new { @class = "form-control", placeholder = "Titel" })
+                                    @Html.TextBoxFor(model => model.News.Title, new { @id = "tbTitle", @class = "form-control", placeholder = "Titel" })
                                 </div><!-- /.col -->
                             </div><!-- /.row -->
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    @Html.TextAreaFor(model => model.News.Body, new { @class = "form-control textarealong", placeholder = "Body" })
+                                    @Html.TextAreaFor(model => model.News.Body, new { @id = "tbBody", @class = "form-control textarealong", placeholder = "Body" })
                                 </div><!-- /.col -->
                             </div><!-- /.row -->
 
@@ -186,16 +186,16 @@
                             @Html.HiddenFor(x => x.News.Id)
                             @Html.HiddenFor(x => x.News.Author)
                             @Html.HiddenFor(x => x.News.Written)
+                            @Html.HiddenFor(x => x.News.ImageUrl)
                             @for (int i = 0; i < Model.Categories.Length; i++)
                             {
                                 @Html.HiddenFor(model => Model.Categories[i])
                             }
-                            <button id="" type="submit" class="btn btn-submit" style="width:100%;">Speichern</button>
-                        </form>
+                            }
+                            <button id="preview" class="btn col-md-12" style="width:100%;">Preview</button>
+                            <div id="response"></div>
 
-                        <div id="response"></div>
-
-                    </div><!-- /.comment-form-wrapper -->
+                        </div><!-- /.comment-form-wrapper -->
 
                 </div><!-- /.sidemeta -->
             </div><!-- /.col -->
@@ -259,6 +259,42 @@
     </div><!-- /.container -->
 </section>
 
+<div class="modal fade" id="preview-modal" tabindex="-1" role="dialog" aria-labelledby="preview-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">News Vorschau</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="icon-cancel-1"></i></span></button>
+            </div><!-- /.modal-header -->
+
+            <div class="modal-body">
+                <section id="blog-post" class="light-bg">
+                    <div class="container inner-top-sm inner-bottom classic-blog no-sidebar">
+                        <div class="row">
+                            <div class="col-lg-9 mx-auto">
+                                <div class="post format-gallery">
+
+                                    <div class="post-content">
+                                        <h1 id="post-title-preview" class="post-title"></h1>
+                                        <div id="post-body-preview">
+
+                                        </div>
+                                    </div><!-- /.post-content -->
+                                </div>
+                            </div>
+                        </div><!-- /.modal-body -->
+                    </div>
+                </section>
+            </div>
+
+            <div class="modal-footer">
+                <button id="previewSubmit" class="btn btn-submit" style="width:100%;">Hochladen</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @section scripts {
     <script>
         $(document).ready(function () {
@@ -274,6 +310,18 @@
                     $('.removethead').css("display", "table-cell");
                 }
             }
+
+            $('#previewSubmit').on('click', function () {
+                $('#editNewsForm').submit();
+            })
+
+            $("#preview").on('click', function () {
+                var title = $("#tbTitle").val();
+                var body = $("#tbBody").val();
+                document.getElementById("post-title-preview").innerHTML = title;
+                document.getElementById("post-body-preview").innerHTML = body;
+                $("#preview-modal").modal('show');
+            })
         });
     </script>
 }

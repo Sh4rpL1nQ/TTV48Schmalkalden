@@ -81,6 +81,8 @@ namespace TTV48Schmalkalden.Controllers
             if (ModelState.IsValid)
             {
                 var targetNews = context.News.SingleOrDefault(x => x.Id == id);
+                if (targetNews == null) return RedirectToAction("PageNotFound", "Error");
+
                 var imageData = context.Images.Include(x => x.News);
 
                 //Images
@@ -92,7 +94,8 @@ namespace TTV48Schmalkalden.Controllers
                     Written = targetNews.Written,
                     Author = targetNews.Author,
                     Body = targetNews.Body,
-                    Title = targetNews.Title
+                    Title = targetNews.Title,
+                    ImageUrl = targetNews.ImageUrl
                 };
                 images = imageData.Where(x => x.News.Id == targetNews.Id).ToList();
 
@@ -142,12 +145,12 @@ namespace TTV48Schmalkalden.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(EditNewsViewModel model)
+        public IActionResult CreateNews(EditNewsViewModel model)
         {
             if (session.GetString("user") == null) return RedirectToAction("PageNotFound", "Error");
 
             var news = model.News;
-            var categories = model.Categories;
+            var categories = model.Categories ?? new string[] { };
 
             //Update New
             context.News.Add(model.News);
@@ -182,7 +185,7 @@ namespace TTV48Schmalkalden.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EditNewsViewModel model)
+        public IActionResult EditNews(EditNewsViewModel model)
         {
             if (session.GetString("user") == null) return RedirectToAction("PageNotFound", "Error");
 
