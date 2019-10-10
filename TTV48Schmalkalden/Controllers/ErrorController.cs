@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TTV48Schmalkalden.Controllers
 {
+    [Route("error")]
     public class ErrorController : Controller
     {
         private readonly TelemetryClient _telemetryClient;
@@ -17,29 +18,15 @@ namespace TTV48Schmalkalden.Controllers
             _telemetryClient = telemetryClient;
         }
 
+        [Route("internal-server-error")]
         public IActionResult InternalServerError()
         {
-            var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-            _telemetryClient.TrackException(exceptionHandlerPathFeature.Error);
-            _telemetryClient.TrackEvent("Error.ServerError", new Dictionary<string, string>
-            {
-                ["originalPath"] = exceptionHandlerPathFeature.Path,
-                ["error"] = exceptionHandlerPathFeature.Error.Message
-            });
             return View();
         }
 
+        [Route("page-not-found")]
         public IActionResult PageNotFound()
         {
-            string originalPath = "unknown";
-            if (HttpContext.Items.ContainsKey("originalPath"))
-            {
-                originalPath = HttpContext.Items["originalPath"] as string;
-            }
-            _telemetryClient.TrackEvent("Error.PageNotFound", new Dictionary<string, string>
-            {
-                ["originalPath"] = originalPath
-            });
             return View();
         }
     }

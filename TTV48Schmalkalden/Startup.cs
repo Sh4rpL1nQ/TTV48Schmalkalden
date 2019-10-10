@@ -67,25 +67,7 @@ namespace TTV48Schmalkalden
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                //app.UseStatusCodePagesWithReExecute("/Error/InternalServerError");
-                /*app.Use(async (ctx, next) =>
-                {
-                    await next();
-
-                    if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
-                    {
-                        //Re-execute the request so the user gets the error page
-                        string originalPath = ctx.Request.Path.Value;
-                        ctx.Items["originalPath"] = originalPath;
-                        ctx.Request.Path = "/Error/PageNotFound";
-                        await next();
-                    }
-                });*/
-            }
-            else
-            {
-                app.UseStatusCodePagesWithReExecute("/Error/InternalServerError");
+                app.UseStatusCodePagesWithReExecute("/error/internal-server-error");
                 //app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
                 app.Use(async (ctx, next) =>
                 {
@@ -96,7 +78,25 @@ namespace TTV48Schmalkalden
                         //Re-execute the request so the user gets the error page
                         string originalPath = ctx.Request.Path.Value;
                         ctx.Items["originalPath"] = originalPath;
-                        ctx.Request.Path = "/Error/PageNotFound";
+                        ctx.Request.Path = "/error/page-not found";
+                        await next();
+                    }
+                });
+            }
+            else
+            {
+                app.UseStatusCodePagesWithReExecute("/error/internal-server-error");
+                //app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
+                app.Use(async (ctx, next) =>
+                {
+                    await next();
+
+                    if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
+                    {
+                        //Re-execute the request so the user gets the error page
+                        string originalPath = ctx.Request.Path.Value;
+                        ctx.Items["originalPath"] = originalPath;
+                        ctx.Request.Path = "/error/page-not found";
                         await next();
                     }
                 });

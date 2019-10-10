@@ -18,6 +18,14 @@
                     <li><i class="icon-mobile contact"></i> +49 157 763 169 75</li>
                     <li><a href="mailto:info@ttv48schmalkalden.com"><i class="icon-mail-1 contact"></i> info@ttv48schmalkalden.com</a></li>
                 </ul><!-- /.contacts -->
+                @if (ViewContext.RouteData.Values["controller"].ToString() == "Contact")
+                {
+                    <a href="#infos" class="scroll-to txt-btn" data-anchor-offset="0">Spezielle Ansprechpartner</a>
+                }
+                else
+                {
+                    <a asp-controller="Contact" asp-action="Index" asp-fragment="infos" class="txt-btn">Spezielle Ansprechpartner</a>
+                }
             </div><!-- /.col -->
 
             <div class="col-lg-4 col-md-6 inner">

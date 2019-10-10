@@ -17,6 +17,7 @@ namespace TTV48Schmalkalden.Controllers
             this.context = context;
         }
 
+        [Route("sitemap")]
         public IActionResult Index()
         {
             List<SitemapNode> nodes = new List<SitemapNode>

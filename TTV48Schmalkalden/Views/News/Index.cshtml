@@ -26,7 +26,7 @@
                             <div class="post-content">
 
                                 <h2 class="post-title">
-                                    <a href="blog-post.html">@entry.Title</a>
+                                    <a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId">@entry.Title</a>
                                 </h2>
 
                                 <ul class="meta">
@@ -40,24 +40,15 @@
 
                                         }
                                     </li>
-                                    @if (entry.CommentCount == 1)
-                                    {
-                                        <li class="comments"><a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId" asp-fragment="comments" class="scroll-to" data-anchor-offset="0">@entry.CommentCount Kommentar</a></li> }
-                                    else
-                                    {
-                                        <li class="comments"><a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId" asp-fragment="comments" class="scroll-to" data-anchor-offset="0">@entry.CommentCount Kommentare</a></li>}
-
+                                    <li class="comments"><a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId" asp-fragment="comments">@entry.CommentCount Kommentar(e)</a></li>
                                 </ul><!-- /.meta -->
                                 @Html.Raw(entry.Body)
 
                                 <div class="container">
                                     <a asp-controller="News" asp-action="Detail" asp-route-id="@entry.NewsId" class="btn">Weiter lesen</a>
                                 </div>
-
-                            </div><!-- /.post-content -->
-
+                           </div><!-- /.post-content -->
                         </div>
-
                     }
 
                 </div><!-- /.posts -->
@@ -85,13 +76,12 @@
             </div><!-- /.col -->
 
             <aside class="col-lg-3">
-                <div class="sidebox widget">
-                    <h4>Suche</h4>
 
-                    <form id="search" class="navbar-form search" role="search">
-                        <input type="search" class="form-control" placeholder="Tippe um zu Suchen">
-                        <button type="submit" class="btn btn-submit icon-right-open"></button>
-                    </form>
+                <div class="sidebox widget">
+                    <h4>Willkommen</h4>
+                    <p>Hier sehen Sie eine Ansammlung an Neuigkeiten sortiert von der Neusten zur Ältesten.</p>
+                    <p>Diese werden von freiwilligen Mitgliedern verfasst und gegebenenfalls mit Bildern ausgestellt.</p>
+                    <p>Als Nutzer dieser Sektion ist es Ihnen möglich, Kommentare zu verfassen um Feedback zu geben.</p>
                 </div><!-- /.widget -->
 
                 <div class="sidebox widget">
@@ -106,12 +96,7 @@
                     </ul><!-- /.circled -->
                 </div><!-- /.widget -->
 
-                <div class="sidebox widget">
-                    <h4>Willkommen</h4>
-                    <p>Hier sehen Sie eine Ansammlung an Neuigkeiten sortiert von der Neusten zur Ältesten.</p>
-                    <p>Diese werden von freiwilligen Mitgliedern verfasst und gegebenenfalls mit Bildern ausgestellt.</p>
-                    <p>Als Nutzer dieser Sektion ist es Ihnen möglich, Kommentare zu verfassen um Feedback zu geben.</p>
-                </div><!-- /.widget -->
+
             </aside>
 
         </div><!-- /.row -->

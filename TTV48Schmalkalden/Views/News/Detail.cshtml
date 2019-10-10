@@ -23,7 +23,7 @@
                         </div><!-- /.date-wrapper -->
 
                         <div class="post-content">
-                            <p class="author"><a class="text-small" style="font-size:13px;" href="" title="Post author" data-rel="tooltip" data-placement="left">@Model.NewsViewModel.Author</a></p>
+                            <p class="author"><a class="text-small" style="font-size:13px;" title="AutorIn" data-rel="tooltip" data-placement="left">@Model.NewsViewModel.Author</a></p>
 
                             <h1 class="post-title">@Model.NewsViewModel.Title</h1>
 
@@ -37,34 +37,36 @@
                                         }
                                     }
                                 </li>
-                                @if (Model.NewsViewModel.CommentCount == 1)
+                                @if (ViewContext.RouteData.Values["controller"].ToString() == "News")
                                 {
-                                    <li class="comments"><a asp-controller="News" asp-action="Detail" asp-route-id="@Model.NewsViewModel.NewsId" asp-fragment="comments" class="scroll-to" data-anchor-offset="0">@Model.NewsViewModel.CommentCount Kommentar</a></li> }
+                                    <li><a href="#comments" class="scroll-to" data-anchor-offset="0">@Model.NewsViewModel.CommentCount Kommentar(e)</a></li>
+                                }
                                 else
                                 {
-                                    <li class="comments"><a asp-controller="News" asp-action="Detail" asp-route-id="@Model.NewsViewModel.NewsId" asp-fragment="comments" class="scroll-to" data-anchor-offset="0">@Model.NewsViewModel.CommentCount Kommentare</a></li>}
+                                    <li class="comments"><a asp-controller="News" asp-action="Detail" asp-route-id="@Model.NewsViewModel.NewsId" asp-fragment="comments">@Model.NewsViewModel.CommentCount Kommentar(e)</a></li>
+                                }
 
                             </ul><!-- /.meta -->
 
                             @Html.Raw(Model.NewsViewModel.Body)
 
                             <!--<figure>
-            <img style="max-width:50%;display:block;margin:auto;" src="~/" alt="">
-            <figcaption></figcaption>
-        </figure>-->
+                                <img style="max-width:50%;display:block;margin:auto;" src="~/" alt="">
+                                <figcaption></figcaption>
+                            </figure>-->
 
                         </div><!-- /.post-content -->
 
                     </div><!-- /.post -->
 
                     <div id="comments">
-                        <h2>@Model.NewsViewModel.CommentCount Kommentare</h2>
+                        <h2>@Model.NewsViewModel.CommentCount Kommentar(e)</h2>
                         <ol class="commentlist">
 
                             @foreach (var comment in Model.Comments)
                             {
                                 <li class="comment">
-                                    <div class="avatar icon-overlay icn-link">
+                                    <div class="avatar icon-overlay icn-link comment-image">
                                         <a href="#"><img src="~/assets/images/placeholder-100px.svg" alt="Platzhalter für Kommentare" title="Kommentarbild"></a>
                                     </div><!-- /.avatar -->
 
@@ -115,13 +117,12 @@
             </div><!-- /.col -->
 
             <aside class="col-lg-3">
-                <div class="sidebox widget">
-                    <h4>Suche</h4>
 
-                    <form id="search" class="navbar-form search" role="search">
-                        <input type="search" class="form-control" placeholder="Type to search">
-                        <button type="submit" class="btn btn-submit icon-right-open"></button>
-                    </form>
+                <div class="sidebox widget">
+                    <h4>Willkommen</h4>
+                    <p>Hier sehen Sie eine Ansammlung an Neuigkeiten sortiert von der Neusten zur Ältesten.</p>
+                    <p>Diese werden von freiwilligen Mitgliedern verfasst und gegebenenfalls mit Bildern ausgestellt.</p>
+                    <p>Als Nutzer dieser Sektion ist es Ihnen möglich, Kommentare zu verfassen um Feedback zu geben.</p>
                 </div><!-- /.widget -->
 
                 <div class="sidebox widget">
@@ -136,14 +137,27 @@
                     </ul><!-- /.circled -->
                 </div><!-- /.widget -->
 
-                <div class="sidebox widget">
-                    <h4>Willkommen</h4>
-                    <p>Hier sehen Sie eine Ansammlung an Neuigkeiten sortiert von der Neusten zur Ältesten.</p>
-                    <p>Diese werden von freiwilligen Mitgliedern verfasst und gegebenenfalls mit Bildern ausgestellt.</p>
-                    <p>Als Nutzer dieser Sektion ist es Ihnen möglich, Kommentare zu verfassen um Feedback zu geben.</p>
-                </div><!-- /.widget -->
+
             </aside>
         </div><!-- /.row -->
     </div><!-- /.container -->
 </section>
 
+@section scripts {
+    <script>
+        $(document).ready(function () {
+    var x = window.matchMedia("(max-width: 767px)");
+    DetectContact(x);
+    x.addListener(DetectContact);
+
+    function DetectContact(x) {
+        if (x.matches) {
+            $('.comment-image').css("display", "none");
+        }
+        else {
+            $('.comment-image').css("display", "block");
+        }
+    }
+});
+    </script>
+}
