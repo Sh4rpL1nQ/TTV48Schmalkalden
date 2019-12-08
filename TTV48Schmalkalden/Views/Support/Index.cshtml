@@ -5,6 +5,11 @@
     ViewData["Description"] = "Lernen Sie sowohl die Unterstützer und Freunde als auch die Holz- und Belagstestmöglichkeiten des Tischtennisvereins in Schmalkalden kennen.";
 }
 
+@section scripts {
+    <script src="~/assets/js/imagesloaded.pkgd.min.js"></script>
+    <script src="~/assets/js/jquery.easytabs.min.js"></script>
+}
+
 <section id="portfolio" class="light-bg">
     <div class="container inner">
         <div class="row">
@@ -37,10 +42,10 @@
                                         <div class="info text-center">
                                             <h4>@sup.Bussines</h4>
                                             <br /><a href="@sup.Link"></a>
-                                            <p>@sup.Owner</p>                                           
+                                            <p>@sup.Owner</p>
                                         </div><!-- /.info -->
                                     </figcaption>
-                                 </div>
+                                </div>
                             </figure>
                         </li><!-- /.item -->
                     }

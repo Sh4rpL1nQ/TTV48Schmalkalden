@@ -31,15 +31,13 @@ figure img {
 }
 
 .crop {
-    min-height: 140px;
-    max-height: 140px;
     overflow: hidden;
     background-color: lightgray;
 }
 
-    .crop h1, h2, h3, h4 {
-        word-wrap: break-word;
-    }
+.crop h1, h2, h3, h4 {
+     word-wrap: break-word;
+ }
 
 .addon {
     display: none;
@@ -5269,10 +5267,7 @@ input:focus:-ms-input-placeholder {
 	    height: 0;
 	    clear: both;
 	    visibility: hidden;
-	}
-    .addon {
-        display: block;
-    }
+	}    
 }
 
 @media (max-width: 991px) {
@@ -5286,6 +5281,9 @@ input:focus:-ms-input-placeholder {
 	.classic-blog .post {
 		width: 630px;
 	}
+    .addon {
+        display: block;
+    }
 }
 
 @media (max-width: 979px) {

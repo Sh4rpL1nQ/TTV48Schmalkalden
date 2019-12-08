@@ -5,8 +5,15 @@
             <div class="col-lg-4 col-md-6 inner">
                 <h4>Wer sind wir</h4>
                 <a href="#top" class="scroll-to"><img class="logo img-intext" src="~/assets/images/logo-white.svg" alt="weißes TTV 48 Schmalkalden Logo mit Tischtennisball und Schläger" title="TTV 48 Schmalkalden"></a>
-                <p>Ein sympathischer regional präsenter Tischtennisverein aus dem Thüringer Wald.</p>
-                <a asp-controller="Home" asp-action="Index" asp-fragment="about" class="txt-btn">Mehr über uns</a>
+                <p>Ein sympathischer regional präsenter Tischtennisverein aus dem Thüringer Wald.</p>                
+                @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
+                {
+                    <a href="#about" class="scroll-to txt-btn" data-anchor-offset="0">Mehr über uns</a>
+                }
+                else
+                {
+                    <a asp-controller="Home" asp-action="Index" asp-fragment="about" class="txt-btn">Mehr über uns</a>
+                }
             </div><!-- /.col -->
 
 
@@ -31,15 +38,7 @@
             <div class="col-lg-4 col-md-6 inner">
                 <h4>Bevorstehende Events</h4>
                 <p>Schauen Sie in unseren Kalender, wann und wo das nächste Ereignis stattfindet.</p>
-
-                @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
-                {
-                    <a href="#kalender" class="scroll-to txt-btn" data-anchor-offset="0">Termine</a>
-                }
-                else
-                {
-                    <a asp-controller="Home" asp-action="Index" asp-fragment="kalender" class="txt-btn">Termine</a>
-                }
+                <a asp-controller="Calendar" asp-action="Index" class="txt-btn">Termine</a>
             </div><!-- /.col -->
 
         </div><!-- /.row -->

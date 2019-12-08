@@ -1,0 +1,201 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Terminkalender";
+}
+
+
+<section id="kalender" class="light-bg" style="overflow:hidden!important;">
+    <div class="container inner-top inner-bottom">
+        <div class="row">
+            <div class="col-lg-8 col-md-9 mx-auto text-center">
+                <header>
+                    <h1>Was steht so an?</h1>
+                    <p>
+                        In diesem Kalender stehen sowohl die Spieltermine als auch zukünftige Turniere oder Events.
+                    </p>
+                </header>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+
+        <div class="row inner-top-xs">
+
+            <div id="calendar"></div>
+        </div><!-- /.row -->
+
+    </div><!-- /.container -->
+</section>
+
+@section scripts
+    {
+
+    <script src="~/lib/moment.js/moment.min.js"></script>
+    <script src="~/lib/fullcalendar/core/main.min.js"></script>
+    <script src="~/lib/fullcalendar/interaction/main.min.js"></script>
+    <script src="~/lib/fullcalendar/daygrid/main.min.js"></script>
+    <script src="~/lib/fullcalendar/core/locales/de.js"></script>
+    <script src="~/lib/tippy.js/tippy.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var fertig = false;
+            var events = [];
+
+            $.ajax({
+                type: "GET",
+                url: "/Calendar/GetEvents",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        var beginning = moment(v.begin).format('YYYY-MM-DDTHH:mm:ss');
+                        var ending = moment(v.end).format('YYYY-MM-DDTHH:mm:ss');
+
+                        var event =
+                        {
+                            title: v.calendarTaskType.name,
+                            color: v.calendarTaskType.colorCode,
+                            textColor: '#ffffff',
+                            classNames: ['text-center'],
+                            allDay: v.isAllDay,
+                            extendedProps: {
+                                description: v.description,
+                                location: v.location,
+                                startTime: beginning,
+                                endTime: ending,
+                                hover: v.calendarTaskType.hoverCode,
+                                code: v.calendarTaskType.colorCode
+                            }
+                        };
+
+                        if (v.recurrentWeekDay != null) {
+                            event.daysOfWeek = [v.recurrentWeekDay];
+                            event.startRecur = '2019-09-01';
+                            event.endRecur = '2019-11-30';
+                            event.startTime = moment(beginning).format('HH:mm');
+                            event.endTime = moment(ending).format('HH:mm');
+                        }
+                        else {
+                            event.start = beginning;
+                            event.end = ending;
+                        }
+
+                        events.push(event);
+                    })
+                    GenerateCalender(events);
+                }
+            });
+
+            function GenerateCalender(events) {
+                var calendarDiv = document.getElementById('calendar');
+                var sess = '@HttpContextAccessor.HttpContext.Session.GetString("user")';
+                var canEdit = null;
+                if (sess == "") { canEdit = false; }
+
+                else { canEdit = true; }
+
+                var calendar = new FullCalendar.Calendar(calendarDiv, {
+                    plugins: ['interaction', 'dayGrid'],
+                    defaultView: 'dayGridMonth',
+                    selectable: true,
+                    locale: 'de',
+                    timezone: 'Europe/Berlin',
+                    events: events,
+                    editable: canEdit,
+                    header: { left: 'prev', center: 'title', right: 'next' },
+                    height: 600,
+                    showNonCurrentDates: false,
+                    fixedWeekCount: false,
+                    contentHeight: 'auto',
+                    eventClick: function (info) {},
+                    dateClick: function (info) {
+                    },
+                    select: function (info) { },
+                    eventMouseEnter: function (info) {
+                        info.el.style.cursor = "pointer";
+                        info.el.style.backgroundColor = info.event.extendedProps.hover;
+                    },
+                    eventMouseLeave: function (info) {
+                        info.el.style.cursor = "default";
+                        info.el.style.backgroundColor = info.event.extendedProps.code;
+                    },
+                    eventRender: function (info) {
+                        fertig = true;
+                        var x = window.matchMedia("(max-width: 767px)");
+                        DetectContact(x);
+                        $('.fc-day-top').addClass('text-center');
+                    },
+                    eventPositioned: function (info) {
+                        tippy(info.el.firstChild, {
+                            content: '<div class="card" style="width: 18rem;"><div class="card-body"><h5 id="event-title" class="card-title">Event: ' +
+                                info.event.title + '</h5><h6 id="event-time" class="card-subtitle mb-2 text-muted">' +
+                                formatDate(info.event.extendedProps.startTime) + ' um ' + formatTime(info.event.extendedProps.startTime) +
+                                '</h6><h6 id="event-location" class="card-subtitle mb-2 text-muted">in ' + info.event.extendedProps.location +
+                                '</h6><p id="event-body" class="card-text" style="color:black;">' + info.event.extendedProps.description + '</p></div></div> ',
+                            trigger: 'click',
+                            animation: 'scale',
+                            inertia: 'subtle'
+                        });
+
+                        $('.fc-day-grid').css("overflow", "hidden");
+                        $('.fc-body').css("overflow", "hidden");
+                        $('.fc-scroller').css("overflow", "hidden");
+                    }
+                });
+                calendar.render();
+            }
+
+            function formatDate(date) {
+                var monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+                var date = new Date(date);
+                return date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear();
+            }
+
+            function formatTime(date) {
+                var date = new Date(date);
+                if (date.getMinutes() < 10)
+                    return date.getHours() + ':' + date.getMinutes() + '0 Uhr';
+                else
+                    return date.getHours() + ':' + date.getMinutes() + ' Uhr';
+            }
+
+            var x = window.matchMedia("(max-width: 767px)");
+            DetectContact(x);
+            x.addListener(DetectContact);
+
+            function DetectContact(x) {
+                if (fertig) {
+                    if (x.matches) { $('.fc-center > h2').css('font-size', '20px');}
+                    else {$('.fc-center > h2').css('font-size', '26px');}
+                }
+            }
+        })
+    </script>
+}
+
+<div class="modal fade" id="modal-event" tabindex="-1" role="dialog" aria-labelledby="modal-eventl" aria-hidden="true">
+    <div class="modal-dialog modal-xs">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-event-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="icon-cancel-1"></i></span></button>
+            </div><!-- /.modal-header -->
+            <!-- ============================================================= MODAL CONTENT ============================================================= -->
+
+            <div class="modal-body">
+                <div class="form-group">
+                    @Html.Hidden("id", "", new { @class = "hiddenid" })
+                </div>
+                <div class="container inner-xs text-center">
+                    <h2 id="modal-event-event-title"></h2>
+                    <p id="modal-event-event-body"></p>
+                    <p id="modal-event-event-location"></p>
+                    <p id="modal-event-event-time"></p>
+                </div><!-- /.container -->
+
+            </div><!-- /.modal-body -->
+            <!-- ============================================================= MODAL CONTENT : END ============================================================= -->
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

@@ -162,7 +162,8 @@
             <div class="col-lg-7">
                 <div class="">
                     <div class="comment-form-wrapper">
-                        @using (Html.BeginForm("EditNews", "Admin", FormMethod.Post, new { @id = "editNewsForm", @class = "forms" })) { 
+                        @using (Html.BeginForm("EditNews", "Admin", FormMethod.Post, new { @id = "editNewsForm", @class = "forms" }))
+                        {
                             <div class="row">
                                 <div class="col-md-12">
                                     @Html.TextBoxFor(model => model.News.Title, new { @id = "tbTitle", @class = "form-control", placeholder = "Titel" })
@@ -191,11 +192,11 @@
                             {
                                 @Html.HiddenFor(model => Model.Categories[i])
                             }
-                            }
-                            <button id="preview" class="btn col-md-12" style="width:100%;">Preview</button>
-                            <div id="response"></div>
+                        }
+                        <button id="preview" class="btn col-md-12" style="width:100%;">Preview</button>
+                        <div id="response"></div>
 
-                        </div><!-- /.comment-form-wrapper -->
+                    </div><!-- /.comment-form-wrapper -->
 
                 </div><!-- /.sidemeta -->
             </div><!-- /.col -->
@@ -296,7 +297,38 @@
 </div><!-- /.modal -->
 
 @section scripts {
+    <script src="https://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.jquery.js" type="text/javascript"></script>
     <script>
+        var isMobile = {
+            Android: function () {
+                return navigator.userAgent.match(/Android/i);
+            },
+            BlackBerry: function () {
+                return navigator.userAgent.match(/BlackBerry/i);
+            },
+            iOS: function () {
+                return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+            },
+            Opera: function () {
+                return navigator.userAgent.match(/Opera Mini/i);
+            },
+            Windows: function () {
+                return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+            },
+            any: function () {
+                return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+            }
+        };
+        $('.chosen-select').chosen({ width: '100%' });
+        if (isMobile) {
+            $('.chosen-select').css("display", "none");
+        } else {
+            $('.chosen-select').css("display", "block");
+        }
+
+        $('.closedAtBeginning').click();
+
         $(document).ready(function () {
             var x = window.matchMedia("(max-width: 516px)");
             DetectContact(x);

@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Data;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+using TTV48Schmalkalden.Tasks;
 
 namespace TTV48Schmalkalden
 {
@@ -55,11 +52,11 @@ namespace TTV48Schmalkalden
             services.AddDistributedMemoryCache();
             services.AddSession();
 
-            services.AddApplicationInsightsTelemetry(Configuration);
-
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TTVConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddStartupTask<WarmupServicesStartupTask>().TryAddSingleton(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,38 +65,11 @@ namespace TTV48Schmalkalden
             if (env.IsDevelopment())
             {
                 app.UseStatusCodePagesWithReExecute("/error/internal-server-error");
-                //app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
-                app.Use(async (ctx, next) =>
-                {
-                    await next();
 
-                    if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
-                    {
-                        //Re-execute the request so the user gets the error page
-                        string originalPath = ctx.Request.Path.Value;
-                        ctx.Items["originalPath"] = originalPath;
-                        ctx.Request.Path = "/error/page-not found";
-                        await next();
-                    }
-                });
             }
             else
             {
                 app.UseStatusCodePagesWithReExecute("/error/internal-server-error");
-                //app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
-                app.Use(async (ctx, next) =>
-                {
-                    await next();
-
-                    if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
-                    {
-                        //Re-execute the request so the user gets the error page
-                        string originalPath = ctx.Request.Path.Value;
-                        ctx.Items["originalPath"] = originalPath;
-                        ctx.Request.Path = "/error/page-not found";
-                        await next();
-                    }
-                });
                 app.UseHsts();
             }
 

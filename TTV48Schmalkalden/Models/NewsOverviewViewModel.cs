@@ -9,6 +9,8 @@ namespace TTV48Schmalkalden.Models
     public class NewsOverviewViewModel
     {
         public List<NewsQuickViewModel> News { get; set; } = new List<NewsQuickViewModel>();
+
+        public NewsQuickViewModel Latest { get; set; }
     }
 
     public class NewsQuickViewModel

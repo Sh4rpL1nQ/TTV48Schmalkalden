@@ -28,11 +28,11 @@ namespace TTV48Schmalkalden.Controllers
 
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.From = new MailAddress("info@ttv48schmalkalden.com");
-                mailMessage.To.Add(contactModel.Email);
-                mailMessage.Body = contactModel.Message;
+                mailMessage.To.Add("info@ttv48schmalkalden.com");
+                mailMessage.Body = contactModel.Email + "\n\n" + contactModel.Message;
                 mailMessage.Subject = contactModel.Subject;
                 client.Send(mailMessage);
-                return RedirectToAction("");
+                return RedirectToAction("Index");
             }
 
             return View(contactModel);

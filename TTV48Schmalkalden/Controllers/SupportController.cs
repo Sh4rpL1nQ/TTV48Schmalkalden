@@ -22,7 +22,7 @@ namespace TTV48Schmalkalden.Controllers
         public IActionResult Index()
         {
             var model = new SupporterViewModel();
-            var supporter = context.Supporters.Include(x => x.SupportingType).OrderByDescending(x => x.Bussines).ToList();
+            var supporter = context.Supporters.Include(x => x.SupportingType).OrderBy(x => x.Bussines).ToList();
 
             model.Supporter = supporter;
 

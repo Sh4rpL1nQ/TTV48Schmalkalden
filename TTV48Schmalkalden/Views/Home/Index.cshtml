@@ -13,12 +13,10 @@
     <!-- ============================================================= SECTION – HOME ============================================================= -->
     <section class="light-bg">
         <div class="container inner-top inner-bottom-xs">
+            <div class="inner-right-xs inner-bottom-xs">
+                <h1 class="">Wir heißen Sie rechtherzlich auf unserer offiziellen Vereinswebsite willkommen</h1>
+            </div><!-- /.col -->
             <div class="row">
-
-                <div class="col-lg-4 inner-right-xs inner-bottom-xs">
-                    <h2 class="headline">Wir heißen Sie rechtherzlich auf unserer offiziellen Vereinswebsite willkommen</h2>
-                </div><!-- /.col -->
-
                 <div class="col-lg-4 inner-right-xs inner-bottom-xs">
                     <h3>TTV 48 Schmalkalden</h3>
                     <p>
@@ -32,88 +30,47 @@
                 <div class="col-lg-4 inner-right-xs inner-bottom-xs">
                     <h3>Freude am Tischtennis</h3>
                     <p>
-                        Haben Sie Fans der Ballsportart und suchen eine Möglichkeit aktiv spielen zu können?
+                        Sind Sie Fans der Ballsportart und suchen eine Möglichkeit aktiv spielen zu können?
                         Informieren Sie sich über unsere Trainingszeiten.
                     </p>
                     <a href="#training" data-anchor-offset="0" class="btn btn-large scroll-to">Training</a>
                 </div><!-- /.col -->
-
+                <div class="col-lg-4 inner-right-xs inner-bottom-xs">
+                    <h3>Aktuelles</h3>
+                    <div class="row thumbs gap-xs">
+                        <div class="col-12 thumb">
+                            <a asp-action="Detail" asp-controller="News" asp-route-id="@Model.Latest.NewsId">
+                                <figure class="crop" style="min-height:240px;max-height:240px;">
+                                    <figcaption class="text-overlay">
+                                        <div class="info">
+                                            <h4 style="hyphens: auto;">@Model.Latest.Title</h4>
+                                        </div><!-- /.info -->
+                                    </figcaption>
+                                    @if (!string.IsNullOrEmpty(Model.Latest.ImageUrl))
+                                    {
+                                        <img src="@Model.Latest.ImageUrl" alt="Bild der Neuigkeit">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/assets/images/240px.svg" alt="Platzhalter für Neuigkeiten ohne Bild">
+                                    }
+                                </figure>
+                                <figcaption class="bordered no-top-border addon">
+                                    <div class="info">
+                                        <h4>@Model.Latest.Title</h4>
+                                    </div><!-- /.info -->
+                                </figcaption>
+                            </a>
+                        </div><!-- /.thumb -->
+                        
+                    </div><!-- /.row -->
+                </div>
             </div><!-- /.row -->
-        </div><!-- /.container -->
-    </section>
-
-    <section id="kalender" style="overflow:hidden!important;">
-        <div class="container inner-top inner-bottom">
-
-            <div class="row">
-                <div class="col-lg-8 col-md-9 mx-auto text-center">
-                    <header>
-                        <h1>Was steht so an?</h1>
-                        <p>
-                            In diesem Kalender stehen sowohl die Spieltermine als auch zukünftige Turniere oder Events.
-                        </p>
-                    </header>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-
-            <div class="row inner-top-xs">
-
-                <div id="calendar"></div>
-            </div><!-- /.row -->
-
         </div><!-- /.container -->
     </section>
 
     <!-- ============================================================= SECTION – HOME : END ============================================================= -->
     <!-- ============================================================= SECTION – TRAINING ============================================================= -->
-
-    <section id="about" class="light-bg img-bg-softer" style="background-image: url(../assets/images/art/pattern-background01.jpg);">
-        <div class="container inner">
-
-            <div class="row">
-                <div class="col-lg-8 col-md-9 mx-auto text-center">
-                    <header>
-                        <h1>Über uns</h1>
-                    </header>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-8 col-md-9 mx-auto text-center">
-                    <div id="owl-testimonials" class="owl-carousel owl-outer-nav owl-ui-md">
-                        <div class="item">
-                            <p>
-                                Wir sind ein traditionsreicher und regional agierender Verein in der Hochschul- und Reformationsstadt Schmalkalden im Süden Thüringens.
-                                Aktuell spielt unsere erste Mannschaft in der ersten Bezirksliga und unsere zweite Mannschaft in der dritten Bezirksliga.
-                            </p>
-                        </div><!-- /.item -->
-                        <div class="item">
-                            <p>
-                                Seit mehreren jahren pflegen wir eine sehr gute Nachwuchsarbeit.
-                                So bestreiten zwei Schülermannschaften
-                                an der Spitze der Schülerkreisliga und alle weiteren Kinder immer wieder neu den Trainingsbetrieb mit Freude uns Ehrgeiz. Einige unserer Schüler mischen sogar in der ersten Jugendbezirksliga mit.
-                            </p>
-                        </div><!-- /.item -->
-                        <div class="item">
-                            <p>
-                                Allgemein stellen unsere Senioren einen wichtigen Baustein des Vereins dar. Ihre sportliche Aktivität
-                                bis ins sehr hohe Alter zeigt sich auch in offiziellen Seniorenmeisterschaften bis hin zur Bundesebene.
-                            </p>
-                        </div><!-- /.item -->
-                        <div class="item">
-                            <p>
-                                Wenn ihr Lust darauf habt, mehr zu erfahren, könnt ihr nun umfangreicher auf unserer Webseite
-                                stöbern. Solltet ihr Interesse an sportlicher Vereinsaktivität im Tischtennisbereich haben, könnt ihr gern zum Schnuppertraining oder
-                                als Zuschauer beim Punktspiel vorbeikommen. Wir sind natürlich sehr an Sportlern für unsere
-                                Mannschaften (in allen Klassen!) interessiert.
-                            </p>
-                        </div><!-- /.item -->
-                    </div><!-- /.owl-carousel -->
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-
-        </div><!-- /.container -->
-    </section>
 
     <section id="training">
         <div class="container inner-top">
@@ -162,29 +119,48 @@
     <!-- ============================================================= SECTION – TRAINING : END ============================================================= -->
     <!-- ============================================================= SECTION – NEWS ============================================================= -->
 
-    <section id="news" class="light-bg">
+    <section id="about" class="light-bg">
+        <div class="container inner-top inner-bottom">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1>Über uns</h1>
+                    <p style="text-align:justify;">
+                        Wir sind ein traditionsreicher und regional agierender Verein in der Hochschul- und Reformationsstadt Schmalkalden im Süden Thüringens.
+                        Aktuell spielt unsere erste Mannschaft in der ersten Bezirksliga und unsere zweite Mannschaft in der dritten Bezirksliga.<br /><br />
+                        Seit mehreren jahren pflegen wir eine sehr gute Nachwuchsarbeit.
+                        So bestreiten zwei Schülermannschaften
+                        an der Spitze der Schülerkreisliga und alle weiteren Kinder immer wieder neu den Trainingsbetrieb mit Freude uns Ehrgeiz. Einige unserer Schüler mischen sogar in der ersten Jugendbezirksliga mit. <br /><br />
+                        Allgemein stellen unsere Senioren einen wichtigen Baustein des Vereins dar. Ihre sportliche Aktivität
+                        bis ins sehr hohe Alter zeigt sich auch in offiziellen Seniorenmeisterschaften bis hin zur Bundesebene.<br /><br />
+                        Wenn ihr Lust darauf habt, mehr zu erfahren, könnt ihr nun umfangreicher auf unserer Webseite
+                        stöbern. Solltet ihr Interesse an sportlicher Vereinsaktivität im Tischtennisbereich haben, könnt ihr gern zum Schnuppertraining oder
+                        als Zuschauer beim Punktspiel vorbeikommen. Wir sind natürlich sehr an Sportlern für unsere
+                        Mannschaften (in allen Klassen!) interessiert.
+                    </p>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div>
+    </section>
+
+    <section id="news" class="light-bg img-bg-softer" style="background-image: url(assets/images/art/pattern-background01.jpg);">
         <div class="container inner-top-md inner-bottom-md">
             <div class="row">
                 <div class="col-md-12">
-                    <div id="accordion" class="panel-group">
-                        <div class="panel panel-default">
-
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a class="panel-toggle" href="#content" data-toggle="collapse">
-                                        <span>Neueste Informationen</span>
-                                    </a>
-                                </h4>
-                            </div><!-- /.panel-heading -->
-
-                            <div id="content" class="panel-collapse collapse show" data-parent="#accordion">
+                    <div id="accordion" class="panel-group" style="background-color:transparent;">
+                        <div class="panel panel-default" style="background-color:rgb(255,255,255);">
+                            <div id="content" class="panel-collapse collapse show" data-parent="#accordion" style="background-color:transparent">
+                                <div class="panel-heading text-center">
+                                    <h6 class="panel-title text-center inner-xs" style="font-size:25px">
+                                        Neuigkeiten
+                                    </h6>
+                                </div>
                                 <div class="panel-body">
-                                    <div id="owl-popular-posts" class="owl-carousel owl-item-gap-sm">
+                                    <div id="owl-popular-posts" class="owl-carousel owl-item-gap-sm" style="background-color:transparent;">
                                         @foreach (var news in Model.News)
                                         {
                                             <div class="item">
                                                 <a asp-controller="News" asp-action="Detail" asp-route-id="@news.NewsId">
-                                                    <figure class="crop">
+                                                    <figure class="crop" style="min-height:140px;max-height:140px;">
                                                         <figcaption class="text-overlay">
                                                             <div class="info">
                                                                 <h4 style="hyphens: auto;">@news.Title</h4>
@@ -196,9 +172,8 @@
                                                         }
                                                         else
                                                         {
-                                                            <img src="~/assets/images/placeholder-news.svg" alt="Platzhalter für Neuigkeiten ohne Bild">
+                                                            <img src="~/assets/images/140px.svg" alt="Platzhalter für Neuigkeiten ohne Bild">
                                                         }
-
                                                     </figure>
                                                     <figcaption class="bordered no-top-border addon">
                                                         <div class="info">
@@ -230,176 +205,4 @@
     <!-- ============================================================= MODAL CONTACT01 ============================================================= -->
     <!-- ============================================================= MODAL CONTACT01 : END ============================================================= -->
     <!-- ============================================================= MODALS : END ============================================================= -->
-    <div class="modal fade" id="modal-event" tabindex="-1" role="dialog" aria-labelledby="modal-eventl" aria-hidden="true">
-        <div class="modal-dialog modal-xs">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modal-event-title"></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="icon-cancel-1"></i></span></button>
-                </div><!-- /.modal-header -->
-                <!-- ============================================================= MODAL CONTENT ============================================================= -->
-
-                <div class="modal-body">
-                    <div class="form-group">
-                        @Html.Hidden("id", "", new { @class = "hiddenid" })
-                    </div>
-                    <div class="container inner-xs text-center">
-                        <h2 id="modal-event-event-title"></h2>
-                        <p id="modal-event-event-body"></p>
-                        <p id="modal-event-event-location"></p>
-                        <p id="modal-event-event-time"></p>
-                    </div><!-- /.container -->
-
-                </div><!-- /.modal-body -->
-                <!-- ============================================================= MODAL CONTENT : END ============================================================= -->
-
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div>
 </main>
-
-@section scripts
-    {
-
-    <script src="~/lib/moment.js/moment.min.js"></script>
-    <script src="~/lib/fullcalendar/core/main.min.js"></script>
-    <script src="~/lib/fullcalendar/interaction/main.min.js"></script>
-    <script src="~/lib/fullcalendar/daygrid/main.min.js"></script>
-    <script src="~/lib/fullcalendar/core/locales/de.js"></script>
-    <script src="~/lib/tippy.js/tippy.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            var fertig = false;
-            var events = [];
-
-            $.ajax({
-                type: "GET",
-                url: "/Home/GetEvents",
-                success: function (data) {
-                    $.each(data, function (i, v) {
-                        var beginning = moment(v.begin).format('YYYY-MM-DDTHH:mm:ss');
-                        var ending = moment(v.end).format('YYYY-MM-DDTHH:mm:ss');
-
-                        var event =
-                        {
-                            title: v.calendarTaskType.name,
-                            color: v.calendarTaskType.colorCode,
-                            textColor: '#ffffff',
-                            classNames: ['text-center'],
-                            allDay: v.isAllDay,
-                            extendedProps: {
-                                description: v.description,
-                                location: v.location,
-                                startTime: beginning,
-                                endTime: ending,
-                                hover: v.calendarTaskType.hoverCode,
-                                code: v.calendarTaskType.colorCode
-                            }
-                        };
-
-                        if (v.recurrentWeekDay != null) {
-                            event.daysOfWeek = [v.recurrentWeekDay];
-                            event.startRecur = '2019-09-01';
-                            event.endRecur = '2019-11-30';
-                            event.startTime = moment(beginning).format('HH:mm');
-                            event.endTime = moment(ending).format('HH:mm');
-                        }
-                        else {
-                            event.start = beginning;
-                            event.end = ending;
-                        }
-
-                        events.push(event);
-                    })
-                    GenerateCalender(events);
-                }
-            });
-
-            function GenerateCalender(events) {
-                var calendarDiv = document.getElementById('calendar');
-                var sess = '@HttpContextAccessor.HttpContext.Session.GetString("user")';
-                var canEdit = null;
-                if (sess == "") { canEdit = false; }
-
-                else { canEdit = true; }
-
-                var calendar = new FullCalendar.Calendar(calendarDiv, {
-                    plugins: ['interaction', 'dayGrid'],
-                    defaultView: 'dayGridMonth',
-                    selectable: true,
-                    locale: 'de',
-                    timezone: 'Europe/Berlin',
-                    events: events,
-                    editable: canEdit,
-                    header: { left: 'prev', center: 'title', right: 'next' },
-                    height: 600,
-                    showNonCurrentDates: false,
-                    fixedWeekCount: false,
-                    contentHeight: 'auto',
-                    eventClick: function (info) {},
-                    dateClick: function (info) {
-                    },
-                    select: function (info) { },
-                    eventMouseEnter: function (info) {
-                        info.el.style.cursor = "pointer";
-                        info.el.style.backgroundColor = info.event.extendedProps.hover;
-                    },
-                    eventMouseLeave: function (info) {
-                        info.el.style.cursor = "default";
-                        info.el.style.backgroundColor = info.event.extendedProps.code;
-                    },
-                    eventRender: function (info) {
-                        fertig = true;
-                        var x = window.matchMedia("(max-width: 767px)");
-                        DetectContact(x);
-                        $('.fc-day-top').addClass('text-center');
-                    },
-                    eventPositioned: function (info) {
-                        tippy(info.el.firstChild, {
-                            content: '<div class="card" style="width: 18rem;"><div class="card-body"><h5 id="event-title" class="card-title">Event: ' +
-                                info.event.title + '</h5><h6 id="event-time" class="card-subtitle mb-2 text-muted">' +
-                                formatDate(info.event.extendedProps.startTime) + ' um ' + formatTime(info.event.extendedProps.startTime) +
-                                '</h6><h6 id="event-location" class="card-subtitle mb-2 text-muted">in ' + info.event.extendedProps.location +
-                                '</h6><p id="event-body" class="card-text" style="color:black;">' + info.event.extendedProps.description + '</p></div></div> ',
-                            trigger: 'click',
-                            animation: 'scale',
-                            inertia: 'subtle'
-                        });
-
-                        $('.fc-day-grid').css("overflow", "hidden");
-                        $('.fc-body').css("overflow", "hidden");
-                        $('.fc-scroller').css("overflow", "hidden");
-                    }
-                });
-                calendar.render();
-            }
-
-            function formatDate(date) {
-                var monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
-                var date = new Date(date);
-                return date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear();
-            }
-
-            function formatTime(date) {
-                var date = new Date(date);
-                if (date.getMinutes() < 10)
-                    return date.getHours() + ':' + date.getMinutes() + '0 Uhr';
-                else
-                    return date.getHours() + ':' + date.getMinutes() + ' Uhr';
-            }
-
-            var x = window.matchMedia("(max-width: 767px)");
-            DetectContact(x);
-            x.addListener(DetectContact);
-
-            function DetectContact(x) {
-                if (fertig) {
-                    if (x.matches) { $('.fc-center > h2').css('font-size', '20px');}
-                    else {$('.fc-center > h2').css('font-size', '26px');}
-                }
-            }
-        })
-    </script>
-}

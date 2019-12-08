@@ -9,3 +9,23 @@
 .textarealong {
     height: 400px!important;
 }
+
+@media (max-width: 575px) {
+    footer p, footer a, footer li {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 364px) {
+    .footer-bottom p, .footer-bottom a {
+        font-size: 12px;
+    }
+
+    .footer-menu li {
+        padding-left: 0px;
+    }
+
+    .footer-menu li:before {
+        padding-right: 7px;
+    }
+}

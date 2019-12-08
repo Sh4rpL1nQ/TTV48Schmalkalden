@@ -235,7 +235,38 @@
 </div><!-- /.modal -->
 
 @section scripts {
+    <script src="https://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.jquery.js" type="text/javascript"></script>
     <script>
+        var isMobile = {
+            Android: function () {
+                return navigator.userAgent.match(/Android/i);
+            },
+            BlackBerry: function () {
+                return navigator.userAgent.match(/BlackBerry/i);
+            },
+            iOS: function () {
+                return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+            },
+            Opera: function () {
+                return navigator.userAgent.match(/Opera Mini/i);
+            },
+            Windows: function () {
+                return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+            },
+            any: function () {
+                return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+            }
+        };
+        $('.chosen-select').chosen({ width: '100%' });
+        if (isMobile) {
+            $('.chosen-select').css("display", "none");
+        } else {
+            $('.chosen-select').css("display", "block");
+        }
+
+        $('.closedAtBeginning').click();
+
         $(document).ready(function () {
             var x = window.matchMedia("(max-width: 516px)");
             DetectContact(x);

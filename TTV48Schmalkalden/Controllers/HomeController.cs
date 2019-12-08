@@ -37,13 +37,9 @@ namespace TTV48Schmalkalden.Controllers
                 list.News.Add(model);
             }
 
-            return View(list);
-        }
+            list.Latest = list.News.First();
 
-        public JsonResult GetEvents()
-        {
-            var events = context.CalendarTasks.Include(x => x.CalendarTaskType).ToList();
-            return new JsonResult(events);
+            return View(list);
         }
     }
 }
