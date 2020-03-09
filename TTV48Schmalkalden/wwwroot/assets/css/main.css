@@ -5565,9 +5565,9 @@ input:focus:-ms-input-placeholder {
 	}
 	.sidemeta .date-wrapper,
 	.classic-blog.sidebar-left .sidemeta .date-wrapper {
-		top: -80px;
+		top: -40px;
 		left: 50%;
-		margin-left: -60px;
+		margin-left: -40px;
 	}
 	.sidemeta .format-wrapper,
 	.classic-blog.sidebar-left .sidemeta .format-wrapper {
