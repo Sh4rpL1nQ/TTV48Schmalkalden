@@ -70,7 +70,7 @@
                         if (v.recurrentWeekDay != null) {
                             event.daysOfWeek = [v.recurrentWeekDay];
                             event.startRecur = '2019-09-01';
-                            event.endRecur = '2019-11-30';
+                            event.endRecur = '2020-06-01';
                             event.startTime = moment(beginning).format('HH:mm');
                             event.endTime = moment(ending).format('HH:mm');
                         }
@@ -89,9 +89,8 @@
                 var calendarDiv = document.getElementById('calendar');
                 var sess = '@HttpContextAccessor.HttpContext.Session.GetString("user")';
                 var canEdit = null;
-                if (sess == "") { canEdit = false; }
-
-                else { canEdit = true; }
+                if (sess == "") { canEdit = ''; }
+                else { canEdit = '<div class="card-header"><div><button class="col-lg-6 btn-warning inner-xs">Edit</button><button class="col-lg-6 btn-danger inner-xs">Delete</button></div></div>'; }
 
                 var calendar = new FullCalendar.Calendar(calendarDiv, {
                     plugins: ['interaction', 'dayGrid'],
@@ -126,7 +125,7 @@
                     },
                     eventPositioned: function (info) {
                         tippy(info.el.firstChild, {
-                            content: '<div class="card" style="width: 18rem;"><div class="card-body"><h5 id="event-title" class="card-title">Event: ' +
+                            content: '<div class="card" style="width: 18rem;">' + canEdit + '<div class="card-body"><h5 id="event-title" class="card-title">Event: ' +
                                 info.event.title + '</h5><h6 id="event-time" class="card-subtitle mb-2 text-muted">' +
                                 formatDate(info.event.extendedProps.startTime) + ' um ' + formatTime(info.event.extendedProps.startTime) +
                                 '</h6><h6 id="event-location" class="card-subtitle mb-2 text-muted">in ' + info.event.extendedProps.location +

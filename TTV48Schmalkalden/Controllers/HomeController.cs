@@ -37,7 +37,7 @@ namespace TTV48Schmalkalden.Controllers
                 list.News.Add(model);
             }
 
-            list.Latest = list.News.First();
+            list.Latest = list.News.FirstOrDefault();
 
             return View(list);
         }
